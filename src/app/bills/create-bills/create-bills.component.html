@@ -1,0 +1,40 @@
+<div [hidden]="!submitted">
+    <h4>Item adicionado com sucesso!</h4>
+</div>
+<div class="bills">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <div fxLayout="column" fxLayoutAlign="space-around center">
+                <mat-form-field appearance="outline">
+                    <mat-label>Item</mat-label>
+                    <input matInput class="form-control" [(ngModel)]="paymentBill.Item" 
+                        formControlName="itens" placeholder="Ex. Luz"required>
+                </mat-form-field>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="space-around center">
+                <mat-form-field appearance="outline">
+                <mat-label>Valor</mat-label>
+                    <input matInput placeholder="Ex. R$ 10,00" formControlName="value" 
+                        [(ngModel)]="paymentBill.Value" class="form-control" required>
+                </mat-form-field>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="space-around center">
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Vencimento</mat-label>
+                        <input matInput formControlName="dueDate"
+                            [(ngModel)]="paymentBill.DueDate" placeholder="Ex. 05" required>
+                </mat-form-field>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="space-around center">
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="Status" placeholder="Selecione..." required>
+                        <mat-option [value]="false">Pendente</mat-option>
+                        <mat-option [value]="true">Pago</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <button mat-raised-button color="primary" color="accent">Adicionar</button>
+        </div>
+    </form>
+</div>

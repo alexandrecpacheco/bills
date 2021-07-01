@@ -1,0 +1,46 @@
+<div *ngIf="paymentBills.length === 0">
+    <h2>Nao existem itens no momento...</h2>
+</div>
+<div *ngFor="let paymentBill of paymentBills">
+    <div class="bills">
+        <form [formGroup]="form">
+            <div class="form-group">
+                <div fxLayout="column" fxLayoutAlign="space-around center">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Item</mat-label>
+                        <input matInput class="form-control" formControlName="item" [(ngModel)]="paymentBill.Item">
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-around center">
+                    <mat-form-field appearance="fill">
+                    <mat-label>Valor</mat-label>
+                        <input matInput placeholder="Ex. 10,00" formControlName="value" [(ngModel)]="paymentBill.Value"
+                            class="form-control">
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Vencimento</mat-label>
+                            <input matInput formControlName="dueDate" [(ngModel)]="paymentBill.DueDate">
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>            
+        <div fxLayout="column" fxLayoutAlign="space-around center">
+            <button *ngIf='paymentBill.Status' name="Status" (click)='updateStatus(false)' 
+                class="btn btn-lg btn-block change-color btn-status btn-success"
+                #Status="ngModel" [(ngModel)]="paymentBill.Status" ngDefaultControl type="submit">
+                Pago
+                <i class="i-group fas fa-check"></i> 
+            </button>
+            <button *ngIf='!paymentBill.Status' name="Status" (click)='updateStatus(true)'
+                class="btn btn-lg btn-block change-color btn-status btn-warning"
+                #Status="ngModel" [(ngModel)]="paymentBill.Status" ngDefaultControl type="submit">
+                Pendente
+                <i class="i-group fas fa-times"></i> 
+            </button>
+            <button class="btn btn-lg btn-block change-color btn-danger" (click)='deleteItem(paymentBill)'>Apagar
+                <i class='i-group fas fa-trash-alt'></i>
+            </button>
+        </div>
+        <hr />
+    </div>
+</div>
