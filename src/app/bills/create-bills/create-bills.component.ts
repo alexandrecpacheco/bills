@@ -50,10 +50,10 @@ export class CreateBillsComponent implements OnInit {
   initializeObject(): void {
     this.paymentBills = {
       Id: '',
-      Item: '',
+      Itens: '',
       DueDate: '',
       Status: false,
-      Value: '',
+      Values: '',
       UpdateTime: ''
     };
   }

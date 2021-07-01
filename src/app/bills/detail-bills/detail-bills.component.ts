@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { PaymentBills } from 'src/interfaces/payment-bills';
-import { BillsService } from '../bills/bills.service';
+import { BillsService } from '../bills.service';
 
 @Component({
   selector: 'app-detail-bills',

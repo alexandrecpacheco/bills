@@ -1,7 +1,7 @@
 export interface PaymentBills{
     Id : string;
-    Item : string;
-    Value : string;
+    Itens : string;
+    Values : string;
     DueDate : string;
     Status : boolean;
     UpdateTime : string;

@@ -3,7 +3,7 @@
         <div *ngFor="let paymentBill of paymentBills">
             <app-detail-bills [paymentBill]='paymentBill'></app-detail-bills>
         </div>
-        <button class="btn btn-lg btn-block change-color btn-danger" (click)='deletePaymentBills()'>Apagar Tudo
+        <button mat-button class="btn btn-lg btn-block change-color btn-danger" (click)='deletePaymentBills()'>Apagar Tudo
             <i class='i-group fas fa-trash-alt'></i>
         </button>
     </mat-tab>

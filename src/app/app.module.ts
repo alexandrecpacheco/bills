@@ -16,9 +16,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { CreateBillsComponent } from './bills/create-bills/create-bills.component';
-import { DetailBillsComponent } from './detail-bills/detail-bills.component';
-import { ListBillsComponent } from './list-bills/list-bills.component';
+import { DetailBillsComponent } from './bills/detail-bills/detail-bills.component';
+import { ListBillsComponent } from './bills/list-bills/list-bills.component';
 import { BillsService } from './bills/bills.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { BillsService } from './bills/bills.service';
     MatTabsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    FontAwesomeModule
   ],
   providers: [
     BillsService,

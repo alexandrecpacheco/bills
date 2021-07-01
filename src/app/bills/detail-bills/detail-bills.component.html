@@ -1,10 +1,12 @@
 <div *ngIf="paymentBill">
     <div class="input-group">
-      <input name="Itens" [value]="paymentBill.Item" #Itens="ngModel" 
-          [(ngModel)]="paymentBill.Item" class="col-sm-6 form-control itens" placeholder="Item" ngDefaultControl disabled />
+      <input name="Itens" [value]="paymentBill.Itens" #Itens="ngModel" 
+          [(ngModel)]="paymentBill.Itens" class="col-sm-6 form-control itens" 
+          placeholder="Item" ngDefaultControl disabled />
       <input name="Value" type="text" min="1.0" step="1.0" max="9999" 
-          [value]="paymentBill.Value" #Values="ngModel" [(ngModel)]="paymentBill.Value" 
-          class="col-sm-4 form-control values" placeholder="Valor" ngDefaultControl disabled/>
+          [value]="paymentBill.Values" #Values="ngModel" [(ngModel)]="paymentBill.Values" 
+          class="col-sm-4 form-control values" placeholder="Valor" 
+          ngDefaultControl disabled/>
       <input name="dueDate" type="text" [value]="paymentBill.DueDate" #DueDate="ngModel" 
           [(ngModel)]="paymentBill.DueDate" class="col-sm-2 form-control due-date" 
           placeholder="Vencimento" ngDefaultControl min="1" max="31" disabled />

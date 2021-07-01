@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BillsService } from '../bills/bills.service';
+import { BillsService } from '../bills.service';
 import { map } from 'rxjs/operators';
 
 @Component({

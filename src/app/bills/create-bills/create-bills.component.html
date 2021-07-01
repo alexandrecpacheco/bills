@@ -1,16 +1,17 @@
-<div [hidden]="submitted" style="width: 300px;">
+<div [hidden]="submitted" style="width: 600px;">
+    test
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="form-group">
             <mat-form-field appearance="outline">
                 <mat-label>Item</mat-label>
-                <input matInput placeholder="Ex. Luz" required [(ngModel)]="paymentBills.Item" 
+                <input matInput placeholder="Ex. Luz" required [(ngModel)]="paymentBills.Itens" 
                     formControlName="itens" id="itens" class="form-control">
             </mat-form-field>
 
             <mat-form-field appearance="outline">
                 <mat-label>Valor</mat-label>
                     <input matInput placeholder="Ex. 10,00" formControlName="value" required 
-                        [(ngModel)]="paymentBills.Value" class="form-control">
+                        [(ngModel)]="paymentBills.Values" class="form-control">
             </mat-form-field>
 
             <mat-form-field appearance="outline">
