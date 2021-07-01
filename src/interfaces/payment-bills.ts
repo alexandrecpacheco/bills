@@ -1,8 +1,9 @@
-export interface PaymentBills{
-    Id : string;
-    Itens : string;
-    Values : string;
+export interface PaymentBill{
+    Id: string;
+    Key : string;
+    Item : string;
+    Value : string;
     DueDate : string;
     Status : boolean;
-    UpdateTime : string;
+    UpdateTime : Date;
 }

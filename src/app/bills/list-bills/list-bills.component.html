@@ -1,11 +1,6 @@
 <mat-tab-group>
     <mat-tab class="mat-tab-color" label="Debitos Mensais">
-        <div *ngFor="let paymentBill of paymentBills">
-            <app-detail-bills [paymentBill]='paymentBill'></app-detail-bills>
-        </div>
-        <button mat-button class="btn btn-lg btn-block change-color btn-danger" (click)='deletePaymentBills()'>Apagar Tudo
-            <i class='i-group fas fa-trash-alt'></i>
-        </button>
+        <app-detail-bills></app-detail-bills>
     </mat-tab>
     <mat-tab label="Adicionar Novo Item">
         <app-create-bills></app-create-bills>

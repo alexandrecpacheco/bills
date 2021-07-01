@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { PaymentBills } from 'src/interfaces/payment-bills';
+import { FormControl, FormGroup } from '@angular/forms';
+import { finalize, map } from 'rxjs/operators';
+import { PaymentBill } from 'src/interfaces/payment-bills';
 import { BillsService } from '../bills.service';
 
 @Component({
@@ -9,12 +11,25 @@ import { BillsService } from '../bills.service';
 })
 export class DetailBillsComponent implements OnInit {
 
-  @Input() paymentBill! : PaymentBills;
-
+  form!: FormGroup;
+  paymentBill! : PaymentBill;
+  paymentBills: any;
+  
   constructor(private paymentBillsService : BillsService) {
    }
 
   ngOnInit(): void {
+    this.getPaymentBillsList();
+    this.createForm();
+  }
+
+  createForm(): void {
+    this.form = new FormGroup({
+        item: new FormControl(''),
+        value: new FormControl(''),
+        dueDate:  new FormControl(''),
+        status:  new FormControl('')
+      });
   }
 
   updateStatus(isActive: boolean){
@@ -23,9 +38,25 @@ export class DetailBillsComponent implements OnInit {
     .catch(err => console.log(err));
   }
 
-  deleteItem(){
+  deleteItem(paymentBill: any){
+    debugger;
     this.paymentBillsService
-    .deleteBills(this.paymentBill.Id)
+    .deleteBill(paymentBill.Id)
     .catch(err => console.log(err));
+
+    this.getPaymentBillsList();
   }
+
+  getPaymentBillsList() {
+    this.paymentBillsService.getBillsList().snapshotChanges()
+    .pipe(map(changes =>
+            changes.map(c =>
+              ({ Id: c.payload.key, ...c.payload.val()})
+            )
+        )
+    ).subscribe(bills => {
+      this.paymentBills = bills;
+    });
+  }
+
 }

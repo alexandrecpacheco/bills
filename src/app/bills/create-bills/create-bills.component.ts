@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { PaymentBills } from 'src/interfaces/payment-bills';
+import { PaymentBill } from 'src/interfaces/payment-bills';
 import { BillsService } from '../bills.service';
 
 @Component({
@@ -12,7 +12,7 @@ export class CreateBillsComponent implements OnInit {
 
   submitted = false;
   form!: FormGroup;
-  paymentBills!: PaymentBills;
+  paymentBill!: PaymentBill;
 
   constructor(private billsService : BillsService,
     private formControl: FormControl) {
@@ -31,30 +31,28 @@ export class CreateBillsComponent implements OnInit {
 
   onSubmit(){
     this.submitted = true;
-    this.save();
-  }
-
-  save(){
-    this.billsService.createBills(this.paymentBills);
+    this.paymentBill.Key = Math.floor(Date.now()/1000).toString();
+    this.billsService.createBills(this.paymentBill);
   }
 
   createForm(): void {
     this.form = new FormGroup({
-        'itens': new FormControl('', Validators.required),
-        'value': new FormControl('', Validators.required),
-        'dueDate':  new FormControl('', Validators.required),
-        'status':  new FormControl('', Validators.required)
+        itens: new FormControl('', Validators.required),
+        value: new FormControl('', Validators.required),
+        dueDate:  new FormControl('', Validators.required),
+        status:  new FormControl('', Validators.required)
       });
   }
 
   initializeObject(): void {
-    this.paymentBills = {
+    this.paymentBill = {
       Id: '',
-      Itens: '',
+      Key: '',
+      Item: '',
       DueDate: '',
       Status: false,
-      Values: '',
-      UpdateTime: ''
+      Value: '',
+      UpdateTime: new Date()
     };
   }
 }

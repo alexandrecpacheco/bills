@@ -20,14 +20,18 @@ import { DetailBillsComponent } from './bills/detail-bills/detail-bills.componen
 import { ListBillsComponent } from './bills/list-bills/list-bills.component';
 import { BillsService } from './bills/bills.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MatDividerModule } from '@angular/material/divider';
+
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
     AppComponent,
     CreateBillsComponent,
     DetailBillsComponent,
-    ListBillsComponent,
-    // ButtonsComponent,
+    ListBillsComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +40,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    //ToastrModule.forRoot(),
+    BsDropdownModule.forRoot(),
+    TooltipModule.forRoot(),
+    ModalModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     
@@ -44,11 +50,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MatDividerModule
   ],
   providers: [
     BillsService,
-    //ButtonsComponent,
     FormControl
   ],
   bootstrap: [

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
-import { PaymentBills } from 'src/interfaces/payment-bills';
+import { PaymentBill } from 'src/interfaces/payment-bills';
 
 
 @Injectable({
@@ -8,32 +8,27 @@ import { PaymentBills } from 'src/interfaces/payment-bills';
 })
 export class BillsService {
 
-  private dbPath = '/bills';
+  private dbPath = '/bills/item';
 
-  paymentbillsRef : AngularFireList<PaymentBills>;
+  paymentbills : AngularFireList<PaymentBill>;
 
   constructor(private db: AngularFireDatabase) {
-    this.paymentbillsRef = this.db.list(this.dbPath);
+    this.paymentbills = this.db.list(this.dbPath);
    }
 
-   createBills(payBills: PaymentBills) : void {
-      this.paymentbillsRef.push(payBills);
+   createBills(payBills: PaymentBill) : void {
+      this.paymentbills.push(payBills);
    }
 
    updateBills(key: string, value: any): Promise<void>{
-     return this.paymentbillsRef.update(key, value);
+     return this.paymentbills.update(key, value);
    }
 
-   deleteBills(key: string): Promise<void>{
-     return this.paymentbillsRef.remove(key);
+   deleteBill(key: string): Promise<void>{
+     return this.paymentbills.remove(key);
    }
 
-   getBillsList(): AngularFireList<PaymentBills>{
-     return this.paymentbillsRef;
+   getBillsList(): AngularFireList<PaymentBill>{
+     return this.paymentbills;
    }
-
-   deleteAll(): Promise<void>{
-     return this.paymentbillsRef.remove();
-   }
-
 }

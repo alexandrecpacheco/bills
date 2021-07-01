@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { BillsService } from '../bills.service';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-bills',
@@ -9,30 +7,8 @@ import { map } from 'rxjs/operators';
 })
 export class ListBillsComponent implements OnInit {
 
-  paymentBills: any;
-
-  constructor(private paymentBillsService : BillsService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.getPaymentBillsList();
   }
-
-  getPaymentBillsList() {
-    this.paymentBillsService.getBillsList().snapshotChanges()
-    .pipe(
-      map(changes =>
-            changes.map(c =>
-              ({ Id : c.payload.key, ...c.payload.val()})
-            )
-        )
-    ).subscribe(paymentBill => {
-      this.paymentBills = paymentBill;
-    });
-  }
-
-  deletePaymentBills() {
-    this.paymentBillsService.deleteAll()
-    .catch(err => console.log(err));
-  }
-
-}
+ }
