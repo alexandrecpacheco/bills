@@ -1,0 +1,28 @@
+<div *ngIf="paymentBill">
+    <div class="input-group">
+      <input name="Itens" [value]="paymentBill.Item" #Itens="ngModel" 
+          [(ngModel)]="paymentBill.Item" class="col-sm-6 form-control itens" placeholder="Item" ngDefaultControl disabled />
+      <input name="Value" type="text" min="1.0" step="1.0" max="9999" 
+          [value]="paymentBill.Value" #Values="ngModel" [(ngModel)]="paymentBill.Value" 
+          class="col-sm-4 form-control values" placeholder="Valor" ngDefaultControl disabled/>
+      <input name="dueDate" type="text" [value]="paymentBill.DueDate" #DueDate="ngModel" 
+          [(ngModel)]="paymentBill.DueDate" class="col-sm-2 form-control due-date" 
+          placeholder="Vencimento" ngDefaultControl min="1" max="31" disabled />
+      <button *ngIf='paymentBill.Status' name="Status" (click)='updateStatus(false)' 
+          class="btn btn-lg btn-block change-color btn-status btn-success"
+          #Status="ngModel" [(ngModel)]="paymentBill.Status" ngDefaultControl type="submit">
+          Pago
+          <i class="i-group fas fa-check"></i> 
+      </button>
+      <button *ngIf='!paymentBill.Status' name="Status" (click)='updateStatus(true)'
+          class="btn btn-lg btn-block change-color btn-status btn-warning"
+          #Status="ngModel" [(ngModel)]="paymentBill.Status" ngDefaultControl type="submit">
+          Pendente
+          <i class="i-group fas fa-times"></i> 
+      </button>
+      <button class="btn btn-lg btn-block change-color btn-danger" (click)='deleteItem()'>Apagar
+          <i class='i-group fas fa-trash-alt'></i>
+      </button>
+    </div>
+    <hr/>
+  </div>
