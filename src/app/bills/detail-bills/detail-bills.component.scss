@@ -10,8 +10,8 @@ button {
     width: 100%;
 }
 
-.col-49 {
-    width: 49%;
+.col-50 {
+    width: 49.52%;
 }
 
 .margin-left {
@@ -28,9 +28,18 @@ button {
 
 .buttons {
     padding-bottom: 60px;
-    border-bottom: 2px solid;
 }
 
 .items {
     margin-top: 12px;
 }
+
+.button-row {
+    display: table-cell;
+    width: 490px;
+  }
+  
+  .button-row .mat-button-base {
+    margin: 8px 8px 8px 0;
+  }
+  

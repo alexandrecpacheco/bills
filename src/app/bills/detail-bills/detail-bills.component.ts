@@ -1,5 +1,5 @@
 import { Component, ChangeDetectorRef, AfterViewInit, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { finalize, map } from 'rxjs/operators';
 import { PaymentBill } from 'src/interfaces/payment-bills';
 import { BillsService } from '../bills.service';
@@ -14,8 +14,11 @@ export class DetailBillsComponent implements OnInit, AfterViewInit {
   message: string = 'loading :(';
   form!: FormGroup;
   paymentBills: any;
+  isDisabled: boolean = true;
   
-  constructor(private paymentBillsService : BillsService, private cdr: ChangeDetectorRef) {
+  constructor(private paymentBillsService : BillsService, 
+    private cdr: ChangeDetectorRef,
+    private fb: FormBuilder) {
    }
 
   ngOnInit(): void {
@@ -29,12 +32,12 @@ export class DetailBillsComponent implements OnInit, AfterViewInit {
   }
 
   createForm(): void {
-    this.form = new FormGroup({
-        item: new FormControl(''),
-        value: new FormControl(''),
-        dueDate:  new FormControl(''),
-        status:  new FormControl('')
-      });
+    this.form = this.fb.group({
+      item: new FormControl({value: '', disabled: this.isDisabled}),
+      value: new FormControl({value: '', disabled: this.isDisabled}),
+      dueDate: new FormControl({value: '', disabled: this.isDisabled}),
+      status: new FormControl({value: '', disabled: this.isDisabled})
+    });
   }
 
   updateStatus(paymentBill: PaymentBill, isActive: boolean){

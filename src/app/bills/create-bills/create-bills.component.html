@@ -8,7 +8,7 @@
                 <mat-form-field appearance="outline">
                     <mat-label>Item</mat-label>
                     <input matInput class="form-control" [(ngModel)]="paymentBill.Item" 
-                        formControlName="itens" placeholder="Ex. Luz"required>
+                        formControlName="item" placeholder="Ex. Luz"required>
                 </mat-form-field>
             </div>
             <div fxLayout="column" fxLayoutAlign="space-around center">
@@ -34,8 +34,8 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div fxLayout="row" fxLayoutAlign="end center" >
-                <button mat-raised-button color="primary" color="accent">
+            <div class="button-row" fxLayout="row" fxLayoutAlign="end center" >
+                <button mat-button color="primary">
                     Adicionar
                     <mat-icon>add</mat-icon>
                 </button>

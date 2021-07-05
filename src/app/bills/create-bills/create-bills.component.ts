@@ -37,7 +37,7 @@ export class CreateBillsComponent implements OnInit {
 
   createForm(): void {
     this.form = new FormGroup({
-        itens: new FormControl('', Validators.required),
+        item: new FormControl('', Validators.required),
         value: new FormControl('', Validators.required),
         dueDate:  new FormControl('', Validators.required),
         status:  new FormControl('', Validators.required)
