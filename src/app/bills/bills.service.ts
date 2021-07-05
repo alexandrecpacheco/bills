@@ -8,7 +8,7 @@ import { PaymentBill } from 'src/interfaces/payment-bills';
 })
 export class BillsService {
 
-  private dbPath = '/bills/item';
+  private dbPath = '/bills/items';
 
   paymentbills : AngularFireList<PaymentBill>;
 

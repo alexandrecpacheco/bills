@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ChangeDetectorRef, AfterViewInit, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { finalize, map } from 'rxjs/operators';
 import { PaymentBill } from 'src/interfaces/payment-bills';
@@ -9,18 +9,23 @@ import { BillsService } from '../bills.service';
   templateUrl: './detail-bills.component.html',
   styleUrls: ['./detail-bills.component.scss']
 })
-export class DetailBillsComponent implements OnInit {
-
+export class DetailBillsComponent implements OnInit, AfterViewInit {
+  
+  message: string = 'loading :(';
   form!: FormGroup;
-  paymentBill! : PaymentBill;
   paymentBills: any;
   
-  constructor(private paymentBillsService : BillsService) {
+  constructor(private paymentBillsService : BillsService, private cdr: ChangeDetectorRef) {
    }
 
   ngOnInit(): void {
     this.getPaymentBillsList();
     this.createForm();
+  }
+
+  ngAfterViewInit() {
+    this.message = 'all done loading :)'
+    this.cdr.detectChanges();
   }
 
   createForm(): void {
@@ -32,9 +37,10 @@ export class DetailBillsComponent implements OnInit {
       });
   }
 
-  updateStatus(isActive: boolean){
+  updateStatus(paymentBill: PaymentBill, isActive: boolean){
+    debugger
     this.paymentBillsService
-    .updateBills(this.paymentBill.Id, { Status: isActive })
+    .updateBills(paymentBill.Key, { Status: isActive })
     .catch(err => console.log(err));
   }
 

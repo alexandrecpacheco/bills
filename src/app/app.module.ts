@@ -25,6 +25,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     MatInputModule,
     MatSelectModule,
     FontAwesomeModule,
-    MatDividerModule
+    MatDividerModule,
+    MatIconModule
   ],
   providers: [
     BillsService,
