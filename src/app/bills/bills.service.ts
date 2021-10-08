@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';
-import { ActivatedRoute } from '@angular/router';
 import { PaymentBill } from 'src/interfaces/payment-bills';
 
 @Injectable({

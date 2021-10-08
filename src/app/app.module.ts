@@ -26,6 +26,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import {MatIconModule} from '@angular/material/icon';
+import { ngxLoadingAnimationTypes, NgxLoadingModule } from 'ngx-loading';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,10 @@ import {MatIconModule} from '@angular/material/icon';
     ModalModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
+    
+    NgxLoadingModule.forRoot({ 
+      animationType: ngxLoadingAnimationTypes.wanderingCubes,
+    }),
     
     MatTabsModule,
     MatFormFieldModule,

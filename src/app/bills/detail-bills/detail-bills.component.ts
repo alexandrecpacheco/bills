@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { finalize, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { PaymentBill } from 'src/interfaces/payment-bills';
 import { BillsService } from '../bills.service';
 
@@ -12,15 +11,13 @@ import { BillsService } from '../bills.service';
 })
 export class DetailBillsComponent implements OnInit {
   
-  message: string = 'loading :(';
   form!: FormGroup;
   paymentBills: PaymentBill[] = [];
   isDisabled = true;
-  loading = true;
+  public loading = true;
   bills: any;
   
   constructor(private service : BillsService, 
-    private route: ActivatedRoute,
     private fb: FormBuilder) {
    }
 
@@ -55,10 +52,12 @@ export class DetailBillsComponent implements OnInit {
     .deleteBill(paymentBill.Id)
     .catch(err => console.log(err));
 
-    //this.getPaymentBillsList();
+    this.getPaymentBillsList();
   }
 
   getPaymentBillsList() {
+    debugger;
+    this.loading = true;
     this.service.getBillsList().valueChanges()
     .pipe(map(changes =>
       changes.map(c =>
@@ -66,6 +65,11 @@ export class DetailBillsComponent implements OnInit {
       ), 
       this.createForm()))
     .subscribe((sub) => {
+      debugger;
+      this.loading = false;
+    },
+    (error) => {
+      this.loading = false;
     });
   }
 

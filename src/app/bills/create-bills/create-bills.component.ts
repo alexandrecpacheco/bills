@@ -10,6 +10,7 @@ import { BillsService } from '../bills.service';
 })
 export class CreateBillsComponent implements OnInit {
 
+  selected = "Pendente";
   submitted = false;
   form!: FormGroup;
   paymentBill!: PaymentBill;
