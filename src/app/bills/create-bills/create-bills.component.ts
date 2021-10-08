@@ -37,10 +37,10 @@ export class CreateBillsComponent implements OnInit {
 
   createForm(): void {
     this.form = new FormGroup({
-        item: new FormControl('', Validators.required),
-        value: new FormControl('', Validators.required),
-        dueDate:  new FormControl('', Validators.required),
-        status:  new FormControl('', Validators.required)
+        Itens: new FormControl('', Validators.required),
+        Values: new FormControl('', Validators.required),
+        DueDate:  new FormControl('', Validators.required),
+        Status:  new FormControl('', Validators.required)
       });
   }
 
@@ -48,10 +48,10 @@ export class CreateBillsComponent implements OnInit {
     this.paymentBill = {
       Id: '',
       Key: '',
-      Item: '',
+      Itens: '',
       DueDate: '',
       Status: false,
-      Value: '',
+      Values: '',
       UpdateTime: new Date()
     };
   }

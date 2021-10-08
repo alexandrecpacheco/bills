@@ -1,5 +1,6 @@
-import { Component, ChangeDetectorRef, AfterViewInit, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { finalize, map } from 'rxjs/operators';
 import { PaymentBill } from 'src/interfaces/payment-bills';
 import { BillsService } from '../bills.service';
@@ -9,63 +10,67 @@ import { BillsService } from '../bills.service';
   templateUrl: './detail-bills.component.html',
   styleUrls: ['./detail-bills.component.scss']
 })
-export class DetailBillsComponent implements OnInit, AfterViewInit {
+export class DetailBillsComponent implements OnInit {
   
   message: string = 'loading :(';
   form!: FormGroup;
-  paymentBills: any;
-  isDisabled: boolean = true;
+  paymentBills: PaymentBill[] = [];
+  isDisabled = true;
+  loading = true;
+  bills: any;
   
-  constructor(private paymentBillsService : BillsService, 
-    private cdr: ChangeDetectorRef,
+  constructor(private service : BillsService, 
+    private route: ActivatedRoute,
     private fb: FormBuilder) {
    }
 
   ngOnInit(): void {
     this.getPaymentBillsList();
-    this.createForm();
-  }
-
-  ngAfterViewInit() {
-    this.message = 'all done loading :)'
-    this.cdr.detectChanges();
   }
 
   createForm(): void {
     this.form = this.fb.group({
-      item: new FormControl({value: '', disabled: this.isDisabled}),
-      value: new FormControl({value: '', disabled: this.isDisabled}),
-      dueDate: new FormControl({value: '', disabled: this.isDisabled}),
-      status: new FormControl({value: '', disabled: this.isDisabled})
+      Itens: new FormControl({value: ""}),
+      Value: new FormControl({value: ""}),
+      DueDate: new FormControl({value: ""}),
+      Status: new FormControl({value: ""})
     });
+
+    this.loading = false;
   }
 
   updateStatus(paymentBill: PaymentBill, isActive: boolean){
-    debugger
-    this.paymentBillsService
-    .updateBills(paymentBill.Key, { Status: isActive })
-    .catch(err => console.log(err));
+    this.service
+    .updateBills(
+      paymentBill.Key, 
+      { Status: isActive }
+    )
+    .catch(
+      err => console.log(err)
+    );
   }
 
   deleteItem(paymentBill: any){
-    debugger;
-    this.paymentBillsService
+    this.service
     .deleteBill(paymentBill.Id)
     .catch(err => console.log(err));
 
-    this.getPaymentBillsList();
+    //this.getPaymentBillsList();
   }
 
   getPaymentBillsList() {
-    this.paymentBillsService.getBillsList().snapshotChanges()
+    this.service.getBillsList().valueChanges()
     .pipe(map(changes =>
-            changes.map(c =>
-              ({ Id: c.payload.key, ...c.payload.val()})
-            )
-        )
-    ).subscribe(bills => {
-      this.paymentBills = bills;
+      changes.map(c =>
+        this.paymentBills.push(c)
+      ), 
+      this.createForm()))
+    .subscribe((sub) => {
     });
+  }
+
+  ngSubmit(form: FormGroup){
+    //
   }
 
 }

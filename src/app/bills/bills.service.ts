@@ -1,23 +1,32 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+import { AngularFireDatabase, AngularFireList, AngularFireObject } from '@angular/fire/database';
+import { ActivatedRoute } from '@angular/router';
 import { PaymentBill } from 'src/interfaces/payment-bills';
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class BillsService {
 
-  private dbPath = '/bills/items';
-
-  paymentbills : AngularFireList<PaymentBill>;
+  private dbPath = '/bills';
+  paymentbills : AngularFireList<any>;
+  paymentbillRef: AngularFireObject<any>;
 
   constructor(private db: AngularFireDatabase) {
+    this.paymentbillRef = this.db.object(this.dbPath);
     this.paymentbills = this.db.list(this.dbPath);
    }
 
-   createBills(payBills: PaymentBill) : void {
-      this.paymentbills.push(payBills);
+   createBills(payBill: PaymentBill) : void {
+      this.paymentbills.push({
+        Id: payBill.Id,
+        Key: payBill.Key,
+        Itens: payBill.Itens,
+        DueDate: payBill.DueDate,
+        Status: payBill.Status,
+        UpdateTime: payBill.UpdateTime,
+        Values: payBill.Values
+      });
    }
 
    updateBills(key: string, value: any): Promise<void>{
@@ -28,7 +37,8 @@ export class BillsService {
      return this.paymentbills.remove(key);
    }
 
-   getBillsList(): AngularFireList<PaymentBill>{
-     return this.paymentbills;
-   }
+  getBillsList(): AngularFireList<any> {
+    return this.db.list(this.dbPath);
+  } 
+
 }
