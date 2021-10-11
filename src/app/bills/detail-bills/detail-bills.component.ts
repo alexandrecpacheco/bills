@@ -13,10 +13,9 @@ export class DetailBillsComponent implements OnInit {
   
   form!: FormGroup;
   paymentBills: PaymentBill[] = [];
-  isDisabled = true;
-  public loading = true;
+  loading = false;
   bills: any;
-  
+
   constructor(private service : BillsService, 
     private fb: FormBuilder) {
    }
@@ -32,8 +31,6 @@ export class DetailBillsComponent implements OnInit {
       DueDate: new FormControl({value: ""}),
       Status: new FormControl({value: ""})
     });
-
-    this.loading = false;
   }
 
   updateStatus(paymentBill: PaymentBill, isActive: boolean){
@@ -56,7 +53,6 @@ export class DetailBillsComponent implements OnInit {
   }
 
   getPaymentBillsList() {
-    debugger;
     this.loading = true;
     this.service.getBillsList().valueChanges()
     .pipe(map(changes =>
@@ -65,7 +61,6 @@ export class DetailBillsComponent implements OnInit {
       ), 
       this.createForm()))
     .subscribe((sub) => {
-      debugger;
       this.loading = false;
     },
     (error) => {

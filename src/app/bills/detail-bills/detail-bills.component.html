@@ -1,4 +1,7 @@
 <div class="container bills">
+    <div class="spinner">
+        <mat-progress-spinner mode="indeterminate" *ngIf="loading"></mat-progress-spinner>
+    </div>
     <form [formGroup]="form" (ngSubmit)="ngSubmit(form)">
         <div *ngFor="let bill of paymentBills; let i = index">
             <div class="form-group items">

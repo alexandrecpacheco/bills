@@ -26,6 +26,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import {MatIconModule} from '@angular/material/icon';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { ngxLoadingAnimationTypes, NgxLoadingModule } from 'ngx-loading';
 
 @NgModule({
@@ -58,7 +59,8 @@ import { ngxLoadingAnimationTypes, NgxLoadingModule } from 'ngx-loading';
     MatSelectModule,
     FontAwesomeModule,
     MatDividerModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     BillsService,
