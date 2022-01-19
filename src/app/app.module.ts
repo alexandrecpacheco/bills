@@ -6,8 +6,6 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 
@@ -18,7 +16,6 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { CreateBillsComponent } from './bills/create-bills/create-bills.component';
 import { DetailBillsComponent } from './bills/detail-bills/detail-bills.component';
 import { ListBillsComponent } from './bills/list-bills/list-bills.component';
-import { BillsService } from './bills/bills.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatDividerModule } from '@angular/material/divider';
 
@@ -29,6 +26,10 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { ngxLoadingAnimationTypes, NgxLoadingModule } from 'ngx-loading';
 
+import { AngularFireModule} from '@angular/fire/compat'
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { AngularFireAuthModule } from "@angular/fire/compat/auth";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,6 +39,9 @@ import { ngxLoadingAnimationTypes, NgxLoadingModule } from 'ngx-loading';
   ],
   imports: [
     BrowserModule,
+    AngularFireAuthModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
@@ -46,8 +50,6 @@ import { ngxLoadingAnimationTypes, NgxLoadingModule } from 'ngx-loading';
     BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),
     ModalModule.forRoot(),
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireDatabaseModule,
     
     NgxLoadingModule.forRoot({ 
       animationType: ngxLoadingAnimationTypes.wanderingCubes,
@@ -63,7 +65,6 @@ import { ngxLoadingAnimationTypes, NgxLoadingModule } from 'ngx-loading';
     MatProgressSpinnerModule
   ],
   providers: [
-    BillsService,
     FormControl
   ],
   bootstrap: [

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { PaymentBill } from 'src/interfaces/payment-bills';
+import { IPaymentBill } from 'src/interfaces/payment-bills';
 import { BillsService } from '../bills.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class CreateBillsComponent implements OnInit {
   selected = "Pendente";
   submitted = false;
   form!: FormGroup;
-  paymentBill!: PaymentBill;
+  paymentBill!: IPaymentBill;
 
   constructor(private billsService : BillsService,
     private formControl: FormControl) {
@@ -33,13 +33,13 @@ export class CreateBillsComponent implements OnInit {
   onSubmit(){
     this.submitted = true;
     this.paymentBill.Key = Math.floor(Date.now()/1000).toString();
-    this.billsService.createBills(this.paymentBill);
+    this.billsService.createNewBill(this.paymentBill);
   }
 
   createForm(): void {
     this.form = new FormGroup({
-        Itens: new FormControl('', Validators.required),
-        Values: new FormControl('', Validators.required),
+        Item: new FormControl('', Validators.required),
+        Value: new FormControl('', Validators.required),
         DueDate:  new FormControl('', Validators.required),
         Status:  new FormControl('', Validators.required)
       });
@@ -49,11 +49,10 @@ export class CreateBillsComponent implements OnInit {
     this.paymentBill = {
       Id: '',
       Key: '',
-      Itens: '',
+      Item: '',
       DueDate: '',
       Status: false,
-      Values: '',
-      UpdateTime: new Date()
+      Value: ''
     };
   }
 }

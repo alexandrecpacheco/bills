@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { map } from 'rxjs/operators';
-import { PaymentBill } from 'src/interfaces/payment-bills';
+import { IPaymentBill } from 'src/interfaces/payment-bills';
 import { BillsService } from '../bills.service';
 
 @Component({
@@ -12,7 +11,7 @@ import { BillsService } from '../bills.service';
 export class DetailBillsComponent implements OnInit {
   
   form!: FormGroup;
-  paymentBills: PaymentBill[] = [];
+  paymentBills!: IPaymentBill[];
   loading = false;
   bills: any;
 
@@ -21,51 +20,44 @@ export class DetailBillsComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.createForm();
     this.getPaymentBillsList();
   }
 
   createForm(): void {
     this.form = this.fb.group({
-      Itens: new FormControl({value: ""}),
+      Item: new FormControl({value: ""}),
       Value: new FormControl({value: ""}),
       DueDate: new FormControl({value: ""}),
       Status: new FormControl({value: ""})
     });
   }
 
-  updateStatus(paymentBill: PaymentBill, isActive: boolean){
+  updateStatus(paymentBill: IPaymentBill, isActive: boolean){
     this.service
     .updateBills(
       paymentBill.Key, 
       { Status: isActive }
     )
-    .catch(
-      err => console.log(err)
-    );
+    //.catch(err => console.log(err));
   }
 
   deleteItem(paymentBill: any){
     this.service
     .deleteBill(paymentBill.Id)
-    .catch(err => console.log(err));
+    //.catch(err => console.log(err));
 
     this.getPaymentBillsList();
   }
 
   getPaymentBillsList() {
     this.loading = true;
-    this.service.getBillsList().valueChanges()
-    .pipe(map(changes =>
-      changes.map(c =>
-        this.paymentBills.push(c)
-      ), 
-      this.createForm()))
-    .subscribe((sub) => {
-      this.loading = false;
-    },
-    (error) => {
-      this.loading = false;
-    });
+    let billsList = this.service.getBillsList();
+    billsList.then((data) =>{
+        this.paymentBills = data;
+        this.loading = false;
+      })
+      .catch(err => alert(`GetPaymentBillsList ${err}`));
   }
 
   ngSubmit(form: FormGroup){
