@@ -52,7 +52,7 @@ export class CreateBillsComponent implements OnInit {
       Item: '',
       DueDate: '',
       Status: false,
-      Value: ''
+      Value: 0
     };
   }
 }

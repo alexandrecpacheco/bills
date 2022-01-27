@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IPaymentBill } from 'src/interfaces/payment-bills';
 import { initializeApp } from "firebase/app";
-import { getFirestore, setDoc, doc, getDoc, query, collection, getDocs } from "firebase/firestore";
+import { getFirestore, setDoc, doc, getDoc, query, collection, getDocs, deleteDoc } from "firebase/firestore";
 import { environment } from 'src/environments/environment';
 
 const firebaseApp = initializeApp({
@@ -51,63 +51,56 @@ export class BillsService {
       if (docSnap.exists()) {
         return docSnap.data();
       } else {
-        alert("No docSnap.data!");
+        alert("No data has been found!");
       }
-
       return null;
     } catch(error){
-      alert(error);
+      alert("GetDocument: " + error);
     }
   }
 
+  async createNewBill(bill: IPaymentBill) : Promise<void> {
+    if (bill){
+      await setDoc(doc(db, this.dbPath, bill.Item),{
+        Id: bill.Id,
+        Key: bill.Key,
+        Item: bill.Item,
+        DueDate: bill.DueDate,
+        Status: bill.Status,
+        Value: bill.Value
+      })
+      .catch((error) => { alert("CreateNew: " + error); });
+    }
+    else {
+      alert("CreateNewBill without values");
+    }
+  }
 
-  getBills(){
-    // debugger;
-    // const db = getDatabase();
-    // const starCountRef = ref(db, this.dbPath);
-    // onValue(starCountRef, (snapshot) => {
-    //   const data = snapshot.val();
-    //   console.log('data: ', data);
-    // });
-    
-   }
+  async updateBill(bill: IPaymentBill) : Promise<void> {
+    if (bill){
+      await setDoc(doc(db, this.dbPath, bill.Item),{
+        Id: bill.Id,
+        Key: bill.Key,
+        Item: bill.Item,
+        DueDate: bill.DueDate,
+        Status: bill.Status,
+        Value: bill.Value
+      }, { merge: true })
+      .catch((error) => { alert("CreateNew: " + error); });
+    }
+    else {
+      alert("CreateNewBill without values");
+    }
+  }
 
-   async createNewBill(bill: IPaymentBill) : Promise<void> {
-    await setDoc(doc(db, this.dbPath, bill.Item),{
-      Id: bill.Id,
-      Key: bill.Key,
-      Item: bill.Item,
-      DueDate: bill.DueDate,
-      Status: bill.Status,
-      Value: bill.Value
+  async updateStatus(item: string, status: any) {
+    await setDoc(doc( db, this.dbPath, item), {
+      Status: status
     })
-   }
-
-  //  createBills(payBill: PaymentBill) : void {
-  //     this.paymentbills.push({
-  //       Id: payBill.Id,
-  //       Key: payBill.Key,
-  //       Itens: payBill.Item,
-  //       DueDate: payBill.DueDate,
-  //       Status: payBill.Status,
-  //       UpdateTime: payBill.UpdateTime,
-  //       Value: payBill.Value
-  //     });
-  //  }
-
-  //  updateBills(key: string, value: any): Promise<void>{
-  //   //  return this.paymentbills.update(key, value);
-  //  }
-  updateBills(key: string, value: any) {
-    //
+    .catch((error) => { alert("UpdateStatus: " + error); });
   }
 
-  //  deleteBill(key: string): Promise<void>{
-  //    return this.paymentbills.remove(key);
-  //  }
-  deleteBill(key: string){
-    //return this.paymentbills.remove(key);
+  async deleteBill(item: string){
+    await deleteDoc(doc (db, this.dbPath, item));
   }
-
-
 }

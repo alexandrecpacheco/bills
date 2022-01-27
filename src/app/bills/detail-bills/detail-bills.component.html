@@ -2,7 +2,10 @@
     <div class="spinner">
         <mat-progress-spinner mode="indeterminate" *ngIf="loading"></mat-progress-spinner>
     </div>
-    <form [formGroup]="form" (ngSubmit)="ngSubmit(form)">
+    <form [formGroup]="form">
+        <div fxLayout="column" fxLayoutAlign="space-around center">
+            <mat-label class="right">Total: R$ {{totalValue}}</mat-label>
+        </div>
         <div *ngFor="let bill of paymentBills">
             <div class="form-group items">
                 <div fxLayout="column" fxLayoutAlign="space-around center">
@@ -15,13 +18,13 @@
                 <div fxLayout="row" class="value-duedate" fxLayoutAlign="space-around center">
                     <mat-form-field class="col-70" appearance="fill">
                     <mat-label>Valor</mat-label>
-                        <input matInput class="form-control" name="Value" placeholder="Ex. 10,00" 
-                            [value]="bill.Value">
+                        <input matInput class="form-control" name="Value" placeholder="Ex. 10,00" formControlName="Value" 
+                            [value]="bill.Value" [(ngModel)]="paymentBill.Value" (blur)="updateValue(bill)">
                     </mat-form-field>
                     <mat-form-field class="col-30 margin-left" appearance="fill">
                         <mat-label>Vencimento</mat-label>
-                        <input matInput class="form-control" name="DueDate" placeholder="Dia" 
-                            [value]="bill.DueDate">
+                        <input matInput class="form-control" name="DueDate" placeholder="Dia" formControlName="DueDate"
+                            [value]="bill.DueDate" [(ngModel)]="paymentBill.DueDate" (blur)="updateDueDate(bill)">
                     </mat-form-field>
                 </div>
             </div>
@@ -46,15 +49,5 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="form-group items">
-            <div fxLayout="column" fxLayoutAlign="space-around center">
-                <div class="button-row">
-                    <button color="primary">
-                        Limpar tudo
-                        <mat-icon>warn</mat-icon>
-                    </button>
-                </div>
-            </div>
-        </div> -->
     </form>            
 </div>

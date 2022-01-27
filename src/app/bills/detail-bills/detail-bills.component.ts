@@ -13,15 +13,17 @@ export class DetailBillsComponent implements OnInit {
   form!: FormGroup;
   paymentBills!: IPaymentBill[];
   loading = false;
-  bills: any;
+  paymentBill!: IPaymentBill;
+  totalValue: number = 0;
 
   constructor(private service : BillsService, 
     private fb: FormBuilder) {
    }
 
   ngOnInit(): void {
-    this.createForm();
+    this.initializeObject();
     this.getPaymentBillsList();
+    this.createForm();
   }
 
   createForm(): void {
@@ -34,19 +36,14 @@ export class DetailBillsComponent implements OnInit {
   }
 
   updateStatus(paymentBill: IPaymentBill, isActive: boolean){
-    this.service
-    .updateBills(
-      paymentBill.Key, 
+    this.service.updateStatus(
+      paymentBill.Item, 
       { Status: isActive }
-    )
-    //.catch(err => console.log(err));
+    );
   }
 
   deleteItem(paymentBill: any){
-    this.service
-    .deleteBill(paymentBill.Id)
-    //.catch(err => console.log(err));
-
+    this.service.deleteBill(paymentBill.Id)
     this.getPaymentBillsList();
   }
 
@@ -54,14 +51,45 @@ export class DetailBillsComponent implements OnInit {
     this.loading = true;
     let billsList = this.service.getBillsList();
     billsList.then((data) =>{
+        debugger;
         this.paymentBills = data;
         this.loading = false;
+        this.getTotalBills();
       })
       .catch(err => alert(`GetPaymentBillsList ${err}`));
   }
 
-  ngSubmit(form: FormGroup){
-    //
+  getTotalBills(){
+    
+    this.paymentBills.forEach(element => {
+      debugger;
+      this.totalValue += +element.Value;
+    });
+  }
+
+  updateDueDate(bill: IPaymentBill) {
+    console.log(bill);
+    console.log("Value: ", this.paymentBill.DueDate);
+    bill.DueDate = this.paymentBill.DueDate;
+    this.service.updateBill(bill);
+  }
+
+  updateValue(bill: IPaymentBill) {
+    console.log(bill);
+    console.log("Value: ", this.paymentBill.Value);
+    bill.Value = this.paymentBill.Value;
+    this.service.updateBill(bill);
+  }
+
+  initializeObject(): void {
+    this.paymentBill = {
+      Id: '',
+      Key: '',
+      Item: '',
+      DueDate: '',
+      Status: false,
+      Value: 0
+    };
   }
 
 }

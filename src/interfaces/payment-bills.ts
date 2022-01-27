@@ -4,5 +4,5 @@ export interface IPaymentBill{
     Item : string;
     Key : string;
     Status : boolean;
-    Value : string;
+    Value : number;
 }
