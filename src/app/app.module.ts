@@ -30,6 +30,8 @@ import { AngularFireModule} from '@angular/fire/compat'
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AngularFireAuthModule } from "@angular/fire/compat/auth";
 import { SignInComponent } from './bills/authentication/sign-in/sign-in.component';
+import { SignOutComponent } from './bills/authentication/sign-out/sign-out.component';
+import { AuthGuardServiceService } from './bills/authentication/auth-guard-service.service';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { SignInComponent } from './bills/authentication/sign-in/sign-in.componen
     CreateBillsComponent,
     DetailBillsComponent,
     ListBillsComponent,
-    SignInComponent
+    SignInComponent,
+    SignOutComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +70,8 @@ import { SignInComponent } from './bills/authentication/sign-in/sign-in.componen
     MatProgressSpinnerModule
   ],
   providers: [
-    FormControl
+    FormControl,
+    AuthGuardServiceService
   ],
   bootstrap: [
     AppComponent

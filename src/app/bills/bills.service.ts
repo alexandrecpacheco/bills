@@ -3,8 +3,9 @@ import { IPaymentBill } from 'src/interfaces/payment-bills';
 import { initializeApp } from "firebase/app";
 import { getFirestore, setDoc, doc, getDoc, query, collection, getDocs, deleteDoc } from "firebase/firestore";
 import { environment } from 'src/environments/environment';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, UserCredential } from "firebase/auth";
 import { Router } from '@angular/router';
+import { User } from 'src/interfaces/user';
 
 const firebaseApp = initializeApp({
   apiKey: environment.firebase.apiKey,
@@ -27,6 +28,13 @@ export class BillsService {
   constructor(private router: Router){
   }
 
+  async signOutUser() {
+    signOut(auth).then(() => {
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
   async createNewUser(email: string, password: string) {
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
@@ -42,21 +50,40 @@ export class BillsService {
     .finally();
   }
 
+  private initializeUser() {
+    return {
+      Email: '',
+      Name: '',
+      Password: '',
+      Token: '',
+      User: '',
+      Uid: ''
+    };
+  }
+
   async signInUser(email: string, password: string) {
+    var user: User = this.initializeUser();
+
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in 
-      const user = userCredential.user;
-      console.log('User: ', user);
-      this.router.navigate(['/bills'])
-      // ...
+      debugger;
+      this.getToken(userCredential.user.uid);
+      
+      user.Email = userCredential.user.email ?? '';
+      user.Name = userCredential.user.displayName ?? '';
+      user.Uid = userCredential.user.uid;
+      this.router.navigate(['/bills']);
     })
     .catch((error) => {
-      debugger;
-      const errorCode = error.code;
-      const errorMessage = error.message;
+      console.log(error.code);
+      console.log(error.message);
     })
     .finally();
+  }
+
+  private getToken(uid: string) {
+    localStorage.setItem('SessionUser', uid);
   }
 
   async getBillsList(): Promise<any>{

@@ -51,7 +51,6 @@ export class DetailBillsComponent implements OnInit {
     this.loading = true;
     let billsList = this.service.getBillsList();
     billsList.then((data) =>{
-        debugger;
         this.paymentBills = data;
         this.loading = false;
         this.getTotalBills();
@@ -60,9 +59,7 @@ export class DetailBillsComponent implements OnInit {
   }
 
   getTotalBills(){
-    
     this.paymentBills.forEach(element => {
-      debugger;
       this.totalValue += +element.Value;
     });
   }

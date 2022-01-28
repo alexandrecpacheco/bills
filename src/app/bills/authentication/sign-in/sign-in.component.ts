@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { User } from 'src/interfaces/user';
 import { BillsService } from '../../bills.service';
 
 @Component({
@@ -10,6 +11,7 @@ import { BillsService } from '../../bills.service';
 
 export class SignInComponent implements OnInit {
 
+  @Input() user!: User;
   form!: FormGroup;
   email: string = '';
   password: string = '';
@@ -18,37 +20,18 @@ export class SignInComponent implements OnInit {
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    localStorage.setItem('SessionUser', '');
     this.createForm();
-    //this.authentication();
   }
 
   createForm(): void {
     this.form = this.fb.group({
-      Email: new FormControl({value: ""}),
-      Password: new FormControl({value: ""})
+      Email: new FormControl({value: ''}),
+      Password: new FormControl({value: ''})
     });
   }
 
-
-  // authentication() {
-  //   debugger;
-  //   var firebase = require('firebase');
-  //   var firebaseui = require('firebaseui');
-
-  //   var ui = new firebaseui.auth.AuthUI(firebase.auth());
-
-  //   ui.start('#firebaseui-auth-container', {
-  //     signInOptions: [
-  //       {
-  //       provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-  //       requireDisplayName: false
-  //       }
-  //     ]
-  //   });
-  // }
-
   signIn() {
-    debugger;
     if (this.form.valid){
       this.billsService.signInUser(this.email, this.password);
     }
