@@ -3,6 +3,8 @@ import { IPaymentBill } from 'src/interfaces/payment-bills';
 import { initializeApp } from "firebase/app";
 import { getFirestore, setDoc, doc, getDoc, query, collection, getDocs, deleteDoc } from "firebase/firestore";
 import { environment } from 'src/environments/environment';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { Router } from '@angular/router';
 
 const firebaseApp = initializeApp({
   apiKey: environment.firebase.apiKey,
@@ -10,17 +12,51 @@ const firebaseApp = initializeApp({
   projectId: environment.firebase.projectId,
 });
 
+const auth = getAuth();
 const db = getFirestore(firebaseApp);
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class BillsService {
 
   paymentBills : IPaymentBill[] = [];
   private dbPath = '/bills';
   
-  constructor(){
+  constructor(private router: Router){
+  }
+
+  async createNewUser(email: string, password: string) {
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in 
+      const user = userCredential.user;
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // ..
+    })
+    .finally();
+  }
+
+  async signInUser(email: string, password: string) {
+    signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in 
+      const user = userCredential.user;
+      console.log('User: ', user);
+      this.router.navigate(['/bills'])
+      // ...
+    })
+    .catch((error) => {
+      debugger;
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    })
+    .finally();
   }
 
   async getBillsList(): Promise<any>{
