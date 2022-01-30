@@ -66,13 +66,12 @@ export class BillsService {
 
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      // Signed in 
-      debugger;
       this.getToken(userCredential.user.uid);
-      
+
       user.Email = userCredential.user.email ?? '';
       user.Name = userCredential.user.displayName ?? '';
       user.Uid = userCredential.user.uid;
+      
       this.router.navigate(['/bills']);
     })
     .catch((error) => {
