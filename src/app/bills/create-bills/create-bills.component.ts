@@ -24,19 +24,13 @@ export class CreateBillsComponent implements OnInit {
     this.createForm();
   }
 
-  addNewItem(): void {
-    if (this.form.valid){
-      this.submitted = false;
-    }
-  }
-
   onSubmit(){
     this.submitted = true;
     this.paymentBill.Key = Math.floor(Date.now()/1000).toString();
     this.billsService.createNewBill(this.paymentBill);
   }
 
-  createForm(): void {
+  private createForm(): void {
     this.form = new FormGroup({
         Item: new FormControl('', Validators.required),
         Value: new FormControl('', Validators.required),
@@ -45,7 +39,7 @@ export class CreateBillsComponent implements OnInit {
       });
   }
 
-  initializeObject(): void {
+  private initializeObject() {
     this.paymentBill = {
       Id: '',
       Key: '',

@@ -22,32 +22,18 @@ const db = getFirestore(firebaseApp);
 
 export class BillsService {
 
+  uid: string = '';
   paymentBills : IPaymentBill[] = [];
-  private dbPath = '/bills';
   
   constructor(private router: Router){
+    this.getUid();
   }
 
   async signOutUser() {
     signOut(auth).then(() => {
     }).catch((error) => {
-      console.log(error);
+      alert(`SignOut error: ${error}`);
     });
-  }
-
-  async createNewUser(email: string, password: string) {
-    createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user;
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // ..
-    })
-    .finally();
   }
 
   private initializeUser() {
@@ -76,7 +62,7 @@ export class BillsService {
     })
     .catch((error) => {
       console.log(error.code);
-      console.log(error.message);
+      alert(`SignIn error: ${error.message}`);
     })
     .finally();
   }
@@ -87,15 +73,18 @@ export class BillsService {
 
   async getBillsList(): Promise<any>{
     try{
-      const billRef = collection(db, this.dbPath);
+      this.uid = localStorage.getItem('SessionUser') ?? '';
+      const billRef = collection(db, this.uid);
       const querySnap = await query(billRef);
       const docSnap = await getDocs(querySnap);
-      
       docSnap.forEach((doc) => {
         if (doc.exists()) {
-
           let data = doc.data();
-          this.paymentBills.push(data as IPaymentBill);
+          if (data.Item.length > 0)
+            this.paymentBills.push(data as IPaymentBill);
+        }
+        else {
+          alert('Nenhum item foi encontrado...');
         }
       });
 
@@ -107,9 +96,8 @@ export class BillsService {
 
   async getDocument(document: string): Promise<any>{
     try{
-      const docRef = doc(db, this.dbPath, document);
+      const docRef = doc(db, this.uid, document);
       const docSnap = await getDoc(docRef);
-
       if (docSnap.exists()) {
         return docSnap.data();
       } else {
@@ -122,8 +110,9 @@ export class BillsService {
   }
 
   async createNewBill(bill: IPaymentBill) : Promise<void> {
-    if (bill){
-      await setDoc(doc(db, this.dbPath, bill.Item),{
+    debugger;
+    if (bill && this.uid !== ''){
+      await setDoc(doc(db, this.uid, bill.Item), {
         Id: bill.Id,
         Key: bill.Key,
         Item: bill.Item,
@@ -139,8 +128,9 @@ export class BillsService {
   }
 
   async updateBill(bill: IPaymentBill) : Promise<void> {
-    if (bill){
-      await setDoc(doc(db, this.dbPath, bill.Item),{
+    
+    if (bill && this.uid !== ''){
+      await setDoc(doc(db, this.uid, bill.Item),{
         Id: bill.Id,
         Key: bill.Key,
         Item: bill.Item,
@@ -156,13 +146,33 @@ export class BillsService {
   }
 
   async updateStatus(item: string, status: any) {
-    await setDoc(doc( db, this.dbPath, item), {
+    await setDoc(doc( db, this.uid, item), {
       Status: status
     })
     .catch((error) => { alert("UpdateStatus: " + error); });
   }
 
   async deleteBill(item: string){
-    await deleteDoc(doc (db, this.dbPath, item));
+    debugger;
+    await deleteDoc(doc (db, this.uid, item));
+  }
+
+  async createNewUser(email: string, password: string) {
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in 
+      const user = userCredential.user;
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // ..
+    })
+    .finally();
+  }
+
+  private getUid() {
+    this.uid = `/${localStorage.getItem('SessionUser')}` ?? '/';
   }
 }

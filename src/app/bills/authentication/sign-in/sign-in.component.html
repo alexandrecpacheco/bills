@@ -1,29 +1,27 @@
-<div class="container bills">
-    <form [formGroup]="form" (ngSubmit)="signIn()">
-        <div class="form-group items">
-            <div fxLayout="column" fxLayoutAlign="space-around center">
-                <mat-form-field class="col-100" appearance="fill">
+<div class="container bills center-screen">
+    <div class="form-group items" class="sign-in">
+        <form [formGroup]="form" (ngSubmit)="signIn()">
+            <div class="email" fxLayout="column" fxLayoutAlign="space-around center">
+                <mat-form-field class="col-100" appearance="outline" class="w-100-p">
                     <mat-label>Email</mat-label>
                     <input matInput class="form-control" name="Email" [(ngModel)]="email"
                     placeholder="Email" formControlName="Email">
                 </mat-form-field>
             </div>
             <div fxLayout="column" fxLayoutAlign="space-around center">
-                <mat-form-field class="col-100" appearance="fill">
+                <mat-form-field class="col-100" appearance="outline" class="w-100-p">
                     <mat-label>Password</mat-label>
                     <input matInput type="password" class="form-control" [(ngModel)]="password"
-                     name="Password" placeholder="Password" formControlName="Password">
+                    name="Password" placeholder="Password" formControlName="Password">
                 </mat-form-field>
             </div>
-            <div fxLayout="row" fxLayoutAlign="end center" class="buttons">
-                <div class="button-row" fxLayout="column" class="right" fxLayoutAlign="end end" fxFlex="49">
-                    <button mat-button name="log-in"
-                        class="btn btn-lg btn-block btn-status btn-warning"
-                        ngDefaultControl type="submit">
-                        Log In
-                    </button>
-                </div>
+            <div class="btn-row">
+                <button mat-button name="log-in"
+                    class="btn btn-lg btn-block btn-status btn-warning btn-login"
+                    ngDefaultControl type="submit">
+                    Log In
+                </button>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>

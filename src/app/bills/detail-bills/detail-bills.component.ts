@@ -26,15 +26,6 @@ export class DetailBillsComponent implements OnInit {
     this.createForm();
   }
 
-  createForm(): void {
-    this.form = this.fb.group({
-      Item: new FormControl({value: ""}),
-      Value: new FormControl({value: ""}),
-      DueDate: new FormControl({value: ""}),
-      Status: new FormControl({value: ""})
-    });
-  }
-
   updateStatus(paymentBill: IPaymentBill, isActive: boolean){
     this.service.updateStatus(
       paymentBill.Item, 
@@ -43,13 +34,17 @@ export class DetailBillsComponent implements OnInit {
   }
 
   deleteItem(paymentBill: any){
-    this.service.deleteBill(paymentBill.Id)
-    this.getPaymentBillsList();
+    if (confirm(`Deseja apagar o item ${paymentBill.Item}?`)){
+      this.service.deleteBill(paymentBill.Item);
+      this.getPaymentBillsList();
+      window.onload;
+    }
   }
 
   getPaymentBillsList() {
     this.loading = true;
     let billsList = this.service.getBillsList();
+    debugger;
     billsList.then((data) =>{
         this.paymentBills = data;
         this.loading = false;
@@ -78,7 +73,7 @@ export class DetailBillsComponent implements OnInit {
     this.service.updateBill(bill);
   }
 
-  initializeObject(): void {
+  private initializeObject(): void {
     this.paymentBill = {
       Id: '',
       Key: '',
@@ -87,6 +82,15 @@ export class DetailBillsComponent implements OnInit {
       Status: false,
       Value: 0
     };
+  }
+
+  private createForm(): void {
+    this.form = this.fb.group({
+      Item: new FormControl({value: ''}),
+      Value: new FormControl({value: ''}),
+      DueDate: new FormControl({value: ''}),
+      Status: new FormControl({value: ''})
+    });
   }
 
 }
