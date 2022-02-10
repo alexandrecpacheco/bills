@@ -14,7 +14,10 @@ export class DetailBillsComponent implements OnInit {
   paymentBills!: IPaymentBill[];
   loading = false;
   paymentBill!: IPaymentBill;
-  totalValue: number = 0;
+  totalPending: number = 0;
+  totalPayed: number = 0;
+  txtStatus: string = '';
+  status: boolean = false;
 
   constructor(private service : BillsService, 
     private fb: FormBuilder) {
@@ -22,53 +25,54 @@ export class DetailBillsComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeObject();
-    this.getPaymentBillsList();
     this.createForm();
+    this.getPaymentBills();
   }
 
-  updateStatus(paymentBill: IPaymentBill, isActive: boolean){
-    this.service.updateStatus(
-      paymentBill.Item, 
-      { Status: isActive }
-    );
+  updateStatus(paymentBill: IPaymentBill){
+    this.service.updateStatus(paymentBill);
+    this.status = !this.status;
+    this.txtStatus = this.status ? 'Pago' : 'Pendente';
+  }
+
+  updateAllStatus(){
+    if (confirm(`Deseja alterar TODOS os status?`)){
+      this.service.updateAllStatus();
+    }
   }
 
   deleteItem(paymentBill: any){
     if (confirm(`Deseja apagar o item ${paymentBill.Item}?`)){
       this.service.deleteBill(paymentBill.Item);
-      this.getPaymentBillsList();
-      window.onload;
     }
   }
 
-  getPaymentBillsList() {
+  getPaymentBills() {
     this.loading = true;
     let billsList = this.service.getBillsList();
-    debugger;
     billsList.then((data) =>{
         this.paymentBills = data;
         this.loading = false;
         this.getTotalBills();
       })
-      .catch(err => alert(`GetPaymentBillsList ${err}`));
+      .catch(err => alert(`GetPaymentBills ${err}`));
   }
 
   getTotalBills(){
-    this.paymentBills.forEach(element => {
-      this.totalValue += +element.Value;
+    this.paymentBills.forEach(bill => {
+      if (bill.Status === false)
+        this.totalPending += +bill.Value ?? 0;
+      else
+        this.totalPayed += +bill.Value ?? 0;
     });
   }
 
   updateDueDate(bill: IPaymentBill) {
-    console.log(bill);
-    console.log("Value: ", this.paymentBill.DueDate);
     bill.DueDate = this.paymentBill.DueDate;
     this.service.updateBill(bill);
   }
 
   updateValue(bill: IPaymentBill) {
-    console.log(bill);
-    console.log("Value: ", this.paymentBill.Value);
     bill.Value = this.paymentBill.Value;
     this.service.updateBill(bill);
   }
@@ -89,7 +93,7 @@ export class DetailBillsComponent implements OnInit {
       Item: new FormControl({value: ''}),
       Value: new FormControl({value: ''}),
       DueDate: new FormControl({value: ''}),
-      Status: new FormControl({value: ''})
+      Status: new FormControl({value: false})
     });
   }
 

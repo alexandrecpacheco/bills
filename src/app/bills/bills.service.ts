@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { IPaymentBill } from 'src/interfaces/payment-bills';
 import { initializeApp } from "firebase/app";
 import { getFirestore, setDoc, doc, getDoc, query, collection, getDocs, deleteDoc } from "firebase/firestore";
@@ -20,12 +20,15 @@ const db = getFirestore(firebaseApp);
   providedIn: 'root'
 })
 
-export class BillsService {
+export class BillsService implements OnInit {
 
   uid: string = '';
   paymentBills : IPaymentBill[] = [];
   
   constructor(private router: Router){
+  }
+
+  ngOnInit() {
     this.getUid();
   }
 
@@ -74,20 +77,21 @@ export class BillsService {
   async getBillsList(): Promise<any>{
     try{
       this.uid = localStorage.getItem('SessionUser') ?? '';
+      if (this.uid === ''){
+        alert('Voce nao esta logado, volte e logue-se por favor!');
+        this.router.navigateByUrl('/sigIn');
+      }
       const billRef = collection(db, this.uid);
       const querySnap = await query(billRef);
       const docSnap = await getDocs(querySnap);
       docSnap.forEach((doc) => {
         if (doc.exists()) {
-          let data = doc.data();
-          if (data.Item.length > 0)
-            this.paymentBills.push(data as IPaymentBill);
-        }
-        else {
-          alert('Nenhum item foi encontrado...');
+          if (doc.data() !== undefined)
+            this.paymentBills.push(doc.data() as IPaymentBill);
+          else 
+            alert('Nenhum item foi encontrado...');
         }
       });
-
       return this.paymentBills;
     } catch(error){
       alert("GetBillsList: " + error);
@@ -110,7 +114,6 @@ export class BillsService {
   }
 
   async createNewBill(bill: IPaymentBill) : Promise<void> {
-    debugger;
     if (bill && this.uid !== ''){
       await setDoc(doc(db, this.uid, bill.Item), {
         Id: bill.Id,
@@ -120,7 +123,8 @@ export class BillsService {
         Status: bill.Status,
         Value: bill.Value
       })
-      .catch((error) => { alert("CreateNew: " + error); });
+      .catch((error) => { alert("CreateNew: " + error); })
+      .finally(() => {alert("Cadastro efetuado com sucesso!")})
     }
     else {
       alert("CreateNewBill without values");
@@ -145,15 +149,29 @@ export class BillsService {
     }
   }
 
-  async updateStatus(item: string, status: any) {
-    await setDoc(doc( db, this.uid, item), {
-      Status: status
+  async updateStatus(bill: IPaymentBill) {
+
+    await setDoc(doc( db, this.uid, bill.Item), {
+      Item: bill.Item,
+      Value: bill.Value,
+      DueDate: bill.DueDate,
+      Status: !bill.Status
     })
     .catch((error) => { alert("UpdateStatus: " + error); });
   }
 
+  async updateAllStatus() {
+    this.paymentBills.forEach((bill) => {
+      setDoc(doc(db, this.uid, bill.Item), {
+        Item: bill.Item,
+        Value: bill.Value,
+        DueDate: bill.DueDate,
+        Status: false
+      });
+    });
+  }
+
   async deleteBill(item: string){
-    debugger;
     await deleteDoc(doc (db, this.uid, item));
   }
 

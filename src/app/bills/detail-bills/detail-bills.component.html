@@ -4,7 +4,12 @@
     </div>
     <form [formGroup]="form">
         <div fxLayout="column" fxLayoutAlign="space-around center">
-            <mat-label class="right">Total: R$ {{totalValue}}</mat-label>
+            <div class="total-payed">
+                <mat-label class="right"> Total Pago: R$ {{totalPayed}}</mat-label>
+            </div>
+            <div class="total-pending">
+                <mat-label class="right">Total Pendente: R$ {{totalPending}} |</mat-label>
+            </div>
         </div>
         <div *ngFor="let bill of paymentBills">
             <div class="form-group items">
@@ -18,35 +23,51 @@
                 <div fxLayout="row" class="value-duedate" fxLayoutAlign="space-around center">
                     <mat-form-field class="col-70" appearance="fill">
                     <mat-label>Valor</mat-label>
-                        <input matInput class="form-control" name="Value" placeholder="Ex. 10,00" formControlName="Value" 
-                            [value]="bill.Value" [(ngModel)]="paymentBill.Value" (blur)="updateValue(bill)">
+                        <input matInput class="form-control" name="Value" [value]="bill.Value" (blur)="updateValue(bill)"
+                        placeholder="100.00">
                     </mat-form-field>
                     <mat-form-field class="col-30 margin-left" appearance="fill">
                         <mat-label>Vencimento</mat-label>
-                        <input matInput class="form-control" name="DueDate" placeholder="Dia" formControlName="DueDate"
-                            [value]="bill.DueDate" [(ngModel)]="paymentBill.DueDate" (blur)="updateDueDate(bill)">
+                        <input matInput class="form-control" name="DueDate" [value]="bill.DueDate" (blur)="updateDueDate(bill)">
                     </mat-form-field>
                 </div>
             </div>
             <div fxLayout="row" fxLayoutAlign="end center" class="buttons">
                 <div class="button-row" fxLayout="column" class="right" fxLayoutAlign="end end" fxFlex="49">
                     <button mat-button (click)='deleteItem(bill)'
-                        class="btn btn-lg btn-block btn-status btn-danger">
+                        class="btn btn-lg btn-block btn-danger">
                         <mat-icon>delete</mat-icon>
                     </button>
-                    <button mat-button *ngIf='bill.Status' name="Status" (click)='updateStatus(bill, false)' 
+                    <button mat-button *ngIf='bill.Status' name="Status" (click)='updateStatus(bill)' 
                         class="btn btn-lg btn-block btn-status btn-success"    
                         [value]="bill.Status" ngDefaultControl type="submit">
                         Pago
                         <mat-icon>check</mat-icon>
                     </button>
-                    <button mat-button *ngIf='!bill.Status' name="Status" (click)='updateStatus(bill, true)'
+                    <button mat-button *ngIf='!bill.Status' name="Status" (click)='updateStatus(bill)'
                         class="btn btn-lg btn-block btn-status btn-warning"
                         [value]="bill.Status" ngDefaultControl type="submit">
                         Pendente
                         <mat-icon>close</mat-icon>
                     </button>
+
+                    <button mat-button *ngIf='!bill.Status' name="Status" (click)='updateStatus(bill)'
+                        [ngClass]="{'btn btn-lg btn-block btn-status btn-success' : bill.Status,
+                                    'btn btn-lg btn-block btn-status btn-warning': !bill.Status}"
+                         ngDefaultControl type="submit">
+                        {{txtStatus}}
+                        <mat-icon>close</mat-icon>
+                    </button>
                 </div>
+            </div>
+        </div>
+        <div class="buttons" fxLayout="row" fxLayoutAlign="end center">
+            <div class="btn-intern">
+            <button mat-button name="Pendenciar" (click)='updateAllStatus()'
+                class="btn btn-lg btn-block btn-status btn-warning pendenciar"
+                [value]="false" ngDefaultControl type="submit">
+                Pendenciar Todos
+            </button>
             </div>
         </div>
     </form>            

@@ -11,7 +11,6 @@ import { BillsService } from '../bills.service';
 export class CreateBillsComponent implements OnInit {
 
   selected = "Pendente";
-  submitted = false;
   form!: FormGroup;
   paymentBill!: IPaymentBill;
 
@@ -25,7 +24,6 @@ export class CreateBillsComponent implements OnInit {
   }
 
   onSubmit(){
-    this.submitted = true;
     this.paymentBill.Key = Math.floor(Date.now()/1000).toString();
     this.billsService.createNewBill(this.paymentBill);
   }
