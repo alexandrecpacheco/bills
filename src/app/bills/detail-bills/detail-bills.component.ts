@@ -28,7 +28,10 @@ export class DetailBillsComponent implements OnInit {
   }
 
   updateStatus(bill: IPaymentBill){
-    this.service.updateStatus(bill);
+    this.loading = true;
+    this.service.updateStatus(bill).then(() => {
+      this.loading = false;
+    });
   }
 
   updateAllStatus(){
@@ -45,8 +48,7 @@ export class DetailBillsComponent implements OnInit {
 
   getPaymentBills() {
     this.loading = true;
-    let billsList = this.service.getBillsList();
-    billsList.then((data) =>{
+    this.service.getBillsList().then((data) =>{
       this.paymentBills = data;
       this.getTotalBills();
       this.loading = false;

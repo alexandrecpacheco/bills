@@ -38,19 +38,7 @@
                         class="btn btn-lg btn-block btn-danger">
                         <mat-icon>delete</mat-icon>
                     </button>
-                    <button mat-button *ngIf='bill.Status' name="Status" (click)='updateStatus(bill)' 
-                        class="btn btn-lg btn-block btn-status btn-success"
-                         ngDefaultControl type="submit">
-                        Pago
-                        <mat-icon>check</mat-icon>
-                    </button>
-                    <button mat-button *ngIf='!bill.Status' name="Status" (click)='updateStatus(bill)' 
-                        class="btn btn-lg btn-block btn-status btn-warning"
-                         ngDefaultControl type="submit">
-                        Pendente
-                        <mat-icon>close</mat-icon>
-                    </button>
-                    <!-- <button mat-button name="Status" (click)='updateStatus(bill)'
+                    <button mat-button name="Status" (click)='updateStatus(bill)'
                         [ngClass]="[bill.Status ? 'btn btn-lg btn-block btn-status btn-success' 
                         : 'btn btn-lg btn-block btn-status btn-warning']"
                          ngDefaultControl type="submit" >
@@ -58,7 +46,7 @@
                         <span *ngIf="!bill.Status">Pendente</span>
                         <mat-icon *ngIf="bill.Status">check</mat-icon>
                         <mat-icon *ngIf="!bill.Status">close</mat-icon>
-                    </button> -->
+                    </button>
                 </div>
             </div>
         </div>

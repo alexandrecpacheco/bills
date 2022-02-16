@@ -88,43 +88,19 @@ export class BillsService implements OnInit {
       
       docSnap.forEach((doc) => {
         if (doc.exists()) {
-          if (doc.data() !== undefined)
+          if (doc.data() !== undefined) {
             this.paymentBills.push(doc.data() as IPaymentBill);
+            this.sortBills();
+          }
           else 
             alert('Nenhum item foi encontrado...');
         }
       });
 
-      this.sortBills();
       return this.paymentBills;
     } catch(error){
       alert("GetBillsList: " + error);
     }
-  }
-
-  updateItem(bill: IPaymentBill) {
-    onSnapshot(doc(db, this.uid, bill.Item), (doc) => {
-        
-      let bill = doc.data() as IPaymentBill;
-      this.paymentBills.forEach((item, index) => {
-          if (item.Item == bill.Item) {
-            this.paymentBills.splice(index, 1);
-            return;
-          }
-      });
-      this.paymentBills.push(bill);
-      this.sortBills();
-    });
-  }
-
-  sortBills() {
-
-    this.paymentBills.sort((n1, n2) => {
-      if (n1 > n2) return 1;
-      if (n1 < n2) return -1;
-    
-      return 0;
-    });
   }
 
   async getDocument(document: string): Promise<any>{
@@ -162,35 +138,42 @@ export class BillsService implements OnInit {
 
   async updateBill(bill: IPaymentBill) : Promise<void> {
     
-    if (bill && this.uid !== ''){
-      await setDoc(doc(db, this.uid, bill.Item),{
-        Id: bill.Id,
-        Key: bill.Key,
-        Item: bill.Item,
-        DueDate: bill.DueDate,
-        Status: bill.Status,
-        Value: bill.Value
-      }, { merge: true })
-      .catch((error) => { alert("UpdateBill: " + error); });
-
-     
-    }
-    else {
+    if (!bill && this.uid === ''){
       alert("UpdateBill without values");
+      return;
     }
+    
+    await setDoc(doc(db, this.uid, bill.Item),{
+      Id: bill.Id,
+      Key: bill.Key,
+      Item: bill.Item,
+      DueDate: bill.DueDate,
+      Status: bill.Status,
+      Value: bill.Value
+    }, { merge: true })
+    .catch((error) => {
+      alert("UpdateBill: " + error); 
+    });
   }
 
   async updateStatus(bill: IPaymentBill) {
 
-    await setDoc(doc( db, this.uid, bill.Item), {
+    await setDoc(doc(db, this.uid, bill.Item), {
       Item: bill.Item,
       Value: bill.Value,
       DueDate: bill.DueDate,
       Status: !bill.Status
     })
-    .catch((error) => { alert("UpdateStatus: " + error); });
+    .catch((error) => { 
+      alert("UpdateStatus: " + error);
+      return false;
+    })
+    .finally(() => {
+      return true;
+    });
 
     this.updateItem(bill);
+    return true;
   }
 
   async updateAllStatus() {
@@ -226,4 +209,29 @@ export class BillsService implements OnInit {
   private getUid() {
     this.uid = `/${localStorage.getItem('SessionUser')}` ?? '/';
   }
+
+  private updateItem(bill: IPaymentBill) {
+   
+    onSnapshot(doc(db, this.uid, bill.Item), (doc) => {
+      let _bill = doc.data() as IPaymentBill;
+      this.paymentBills.forEach((item, index) => {
+          if (item.Item == _bill.Item) {
+            debugger;
+            this.paymentBills.splice(index, 1);
+            this.paymentBills.push(_bill);
+            this.sortBills();
+          }
+      });
+    });
+  }
+
+  private sortBills() {
+    this.paymentBills.sort((n1, n2) => {
+      if (n1 > n2) return 1;
+      if (n1 < n2) return -1;
+    
+      return 0;
+    });
+  }
+
 }
