@@ -1,7 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { IPaymentBill } from 'src/interfaces/payment-bills';
 import { initializeApp } from "firebase/app";
-import { getFirestore, setDoc, doc, getDoc, query, collection, getDocs, deleteDoc } from "firebase/firestore";
+import { onSnapshot, getFirestore, setDoc, doc, getDoc, query, collection, getDocs, deleteDoc } from "firebase/firestore";
 import { environment } from 'src/environments/environment';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, UserCredential } from "firebase/auth";
 import { Router } from '@angular/router';
@@ -81,9 +81,11 @@ export class BillsService implements OnInit {
         alert('Voce nao esta logado, volte e logue-se por favor!');
         this.router.navigateByUrl('/sigIn');
       }
+
       const billRef = collection(db, this.uid);
       const querySnap = await query(billRef);
       const docSnap = await getDocs(querySnap);
+      
       docSnap.forEach((doc) => {
         if (doc.exists()) {
           if (doc.data() !== undefined)
@@ -92,10 +94,37 @@ export class BillsService implements OnInit {
             alert('Nenhum item foi encontrado...');
         }
       });
+
+      this.sortBills();
       return this.paymentBills;
     } catch(error){
       alert("GetBillsList: " + error);
     }
+  }
+
+  updateItem(bill: IPaymentBill) {
+    onSnapshot(doc(db, this.uid, bill.Item), (doc) => {
+        
+      let bill = doc.data() as IPaymentBill;
+      this.paymentBills.forEach((item, index) => {
+          if (item.Item == bill.Item) {
+            this.paymentBills.splice(index, 1);
+            return;
+          }
+      });
+      this.paymentBills.push(bill);
+      this.sortBills();
+    });
+  }
+
+  sortBills() {
+
+    this.paymentBills.sort((n1, n2) => {
+      if (n1 > n2) return 1;
+      if (n1 < n2) return -1;
+    
+      return 0;
+    });
   }
 
   async getDocument(document: string): Promise<any>{
@@ -142,10 +171,12 @@ export class BillsService implements OnInit {
         Status: bill.Status,
         Value: bill.Value
       }, { merge: true })
-      .catch((error) => { alert("CreateNew: " + error); });
+      .catch((error) => { alert("UpdateBill: " + error); });
+
+     
     }
     else {
-      alert("CreateNewBill without values");
+      alert("UpdateBill without values");
     }
   }
 
@@ -158,6 +189,8 @@ export class BillsService implements OnInit {
       Status: !bill.Status
     })
     .catch((error) => { alert("UpdateStatus: " + error); });
+
+    this.updateItem(bill);
   }
 
   async updateAllStatus() {

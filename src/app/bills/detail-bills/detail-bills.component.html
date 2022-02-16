@@ -16,7 +16,7 @@
                 <div fxLayout="column" fxLayoutAlign="space-around center">
                     <mat-form-field class="col-100" appearance="fill">
                         <mat-label>Item</mat-label>
-                        <input matInput class="form-control" name="Item" placeholder="Agua, Luz, etc..." 
+                        <input matInput class="form-control" name="Item" placeholder="Agua, Luz, etc." 
                             [value]="bill.Item">
                     </mat-form-field>
                 </div>
@@ -24,7 +24,7 @@
                     <mat-form-field class="col-70" appearance="fill">
                     <mat-label>Valor</mat-label>
                         <input matInput class="form-control" name="Value" [value]="bill.Value" (blur)="updateValue(bill)"
-                        placeholder="100.00">
+                        placeholder="100.00" [(ngModel)]="bill.Value">
                     </mat-form-field>
                     <mat-form-field class="col-30 margin-left" appearance="fill">
                         <mat-label>Vencimento</mat-label>
@@ -39,25 +39,26 @@
                         <mat-icon>delete</mat-icon>
                     </button>
                     <button mat-button *ngIf='bill.Status' name="Status" (click)='updateStatus(bill)' 
-                        class="btn btn-lg btn-block btn-status btn-success"    
-                        [value]="bill.Status" ngDefaultControl type="submit">
+                        class="btn btn-lg btn-block btn-status btn-success"
+                         ngDefaultControl type="submit">
                         Pago
                         <mat-icon>check</mat-icon>
                     </button>
-                    <button mat-button *ngIf='!bill.Status' name="Status" (click)='updateStatus(bill)'
+                    <button mat-button *ngIf='!bill.Status' name="Status" (click)='updateStatus(bill)' 
                         class="btn btn-lg btn-block btn-status btn-warning"
-                        [value]="bill.Status" ngDefaultControl type="submit">
+                         ngDefaultControl type="submit">
                         Pendente
                         <mat-icon>close</mat-icon>
                     </button>
-
-                    <button mat-button *ngIf='!bill.Status' name="Status" (click)='updateStatus(bill)'
-                        [ngClass]="{'btn btn-lg btn-block btn-status btn-success' : bill.Status,
-                                    'btn btn-lg btn-block btn-status btn-warning': !bill.Status}"
-                         ngDefaultControl type="submit">
-                        {{txtStatus}}
-                        <mat-icon>close</mat-icon>
-                    </button>
+                    <!-- <button mat-button name="Status" (click)='updateStatus(bill)'
+                        [ngClass]="[bill.Status ? 'btn btn-lg btn-block btn-status btn-success' 
+                        : 'btn btn-lg btn-block btn-status btn-warning']"
+                         ngDefaultControl type="submit" >
+                        <span *ngIf="bill.Status">Pago</span>
+                        <span *ngIf="!bill.Status">Pendente</span>
+                        <mat-icon *ngIf="bill.Status">check</mat-icon>
+                        <mat-icon *ngIf="!bill.Status">close</mat-icon>
+                    </button> -->
                 </div>
             </div>
         </div>

@@ -16,7 +16,6 @@ export class DetailBillsComponent implements OnInit {
   paymentBill!: IPaymentBill;
   totalPending: number = 0;
   totalPayed: number = 0;
-  txtStatus: string = '';
   status: boolean = false;
 
   constructor(private service : BillsService, 
@@ -24,15 +23,12 @@ export class DetailBillsComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.initializeObject();
     this.createForm();
     this.getPaymentBills();
   }
 
-  updateStatus(paymentBill: IPaymentBill){
-    this.service.updateStatus(paymentBill);
-    this.status = !this.status;
-    this.txtStatus = this.status ? 'Pago' : 'Pendente';
+  updateStatus(bill: IPaymentBill){
+    this.service.updateStatus(bill);
   }
 
   updateAllStatus(){
@@ -41,9 +37,9 @@ export class DetailBillsComponent implements OnInit {
     }
   }
 
-  deleteItem(paymentBill: any){
-    if (confirm(`Deseja apagar o item ${paymentBill.Item}?`)){
-      this.service.deleteBill(paymentBill.Item);
+  deleteItem(bill: IPaymentBill){
+    if (confirm(`Deseja apagar o item ${bill.Item}?`)){
+      this.service.deleteBill(bill.Item);
     }
   }
 
@@ -51,9 +47,9 @@ export class DetailBillsComponent implements OnInit {
     this.loading = true;
     let billsList = this.service.getBillsList();
     billsList.then((data) =>{
-        this.paymentBills = data;
-        this.loading = false;
-        this.getTotalBills();
+      this.paymentBills = data;
+      this.getTotalBills();
+      this.loading = false;
       })
       .catch(err => alert(`GetPaymentBills ${err}`));
   }
@@ -75,17 +71,6 @@ export class DetailBillsComponent implements OnInit {
   updateValue(bill: IPaymentBill) {
     bill.Value = this.paymentBill.Value;
     this.service.updateBill(bill);
-  }
-
-  private initializeObject(): void {
-    this.paymentBill = {
-      Id: '',
-      Key: '',
-      Item: '',
-      DueDate: '',
-      Status: false,
-      Value: 0
-    };
   }
 
   private createForm(): void {
