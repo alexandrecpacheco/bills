@@ -1,21 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './bills/authentication/auth.guard';
+import { SignInComponent } from './bills/authentication/sign-in/sign-in.component';
 import { CreateBillsComponent } from './bills/create-bills/create-bills.component';
 import { ListBillsComponent } from './bills/list-bills/list-bills.component';
  
 const routes: Routes = [
   { 
-    path: '', 
-    redirectTo: 'bills', 
-    pathMatch: 'full' 
+    path: '', redirectTo: 'signIn', pathMatch: 'full'
+  },
+  {
+    path: 'signIn', component: SignInComponent
   },
   { 
-    path: 'bills', 
-    component: ListBillsComponent
+    path: 'bills', component: ListBillsComponent, canActivate: [AuthGuard]
   },
   { 
-    path: 'add', 
-    component: CreateBillsComponent
+    path: 'add', component: CreateBillsComponent, canActivate: [AuthGuard]
   }
 ];
  

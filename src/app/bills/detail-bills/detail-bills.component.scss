@@ -1,3 +1,83 @@
 .input-group input {
     visibility: visible;
 }
+
+button {
+    margin: 0 10px 0 0;
+}
+
+.col-100 {
+    width: 100%;
+}
+
+.col-50 {
+    width: 49.52%;
+}
+
+.col-30 {
+    width: 29%;
+}
+
+.col-70 {
+    width: 69%;
+}
+
+.margin-left {
+    margin-left: 10px;
+}
+
+.margin-bottom {
+    margin-bottom: 10px;
+}
+
+.right {
+    float: right;
+}
+
+.buttons {
+    padding-bottom: 60px;
+}
+
+.items {
+    margin-top: 12px;
+}
+
+.button-row {
+    display: table-cell;
+    width: 490px;
+  }
+  
+.button-row .mat-button-base {
+margin: 8px 8px 8px 0;
+}
+
+.value-duedate {
+    text-align: right;
+}
+
+.spinner {
+    margin: 0 auto;
+    width: 0;
+}
+
+.right {
+    float: right;
+}
+
+.pendenciar {
+    width: 100%;
+}
+
+.btn-intern {
+    padding-top: 10px;
+    margin: 0 auto;
+    width: 23%;
+}
+
+.btn-status {
+    width: 300px;
+}
+
+.total-pending mat-label {
+    padding-right: 3px;
+}

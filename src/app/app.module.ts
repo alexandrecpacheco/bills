@@ -6,8 +6,6 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 
@@ -18,23 +16,37 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { CreateBillsComponent } from './bills/create-bills/create-bills.component';
 import { DetailBillsComponent } from './bills/detail-bills/detail-bills.component';
 import { ListBillsComponent } from './bills/list-bills/list-bills.component';
-import { BillsService } from './bills/bills.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatDividerModule } from '@angular/material/divider';
 
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import {MatIconModule} from '@angular/material/icon';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { ngxLoadingAnimationTypes, NgxLoadingModule } from 'ngx-loading';
+
+import { AngularFireModule} from '@angular/fire/compat'
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { AngularFireAuthModule } from "@angular/fire/compat/auth";
+import { SignInComponent } from './bills/authentication/sign-in/sign-in.component';
+import { SignOutComponent } from './bills/authentication/sign-out/sign-out.component';
+import { AuthGuardServiceService } from './bills/authentication/auth-guard-service.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     CreateBillsComponent,
     DetailBillsComponent,
-    ListBillsComponent
+    ListBillsComponent,
+    SignInComponent,
+    SignOutComponent
   ],
   imports: [
     BrowserModule,
+    AngularFireAuthModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
@@ -43,19 +55,23 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),
     ModalModule.forRoot(),
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireDatabaseModule,
+    
+    NgxLoadingModule.forRoot({ 
+      animationType: ngxLoadingAnimationTypes.wanderingCubes,
+    }),
     
     MatTabsModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
     FontAwesomeModule,
-    MatDividerModule
+    MatDividerModule,
+    MatIconModule,
+    MatProgressSpinnerModule
   ],
   providers: [
-    BillsService,
-    FormControl
+    FormControl,
+    AuthGuardServiceService
   ],
   bootstrap: [
     AppComponent

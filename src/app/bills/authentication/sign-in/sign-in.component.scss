@@ -1,0 +1,35 @@
+.sign-in {
+    border-style: groove;
+    border-radius: 20px;
+    text-align: center;
+    margin: 0 auto;
+    width: 30%;
+}
+
+.right {
+    float: right;
+}
+
+.btn-login {
+    width: 50%;
+}
+
+.btn-row {
+    padding: 0 0 20px 0;
+}
+
+.email {
+    margin-top: 20px;
+}
+
+.center-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+}
+
+.mat-form-field {
+    width: 80%;
+}

@@ -1,40 +1,42 @@
-<div [hidden]="!submitted">
-    <h4>Item adicionado com sucesso!</h4>
-</div>
-<div class="bills">
+<div class="container bills">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="form-group">
             <div fxLayout="column" fxLayoutAlign="space-around center">
                 <mat-form-field appearance="outline">
                     <mat-label>Item</mat-label>
                     <input matInput class="form-control" [(ngModel)]="paymentBill.Item" 
-                        formControlName="itens" placeholder="Ex. Luz"required>
+                        formControlName="Item" placeholder="Ex. Luz"required>
                 </mat-form-field>
             </div>
             <div fxLayout="column" fxLayoutAlign="space-around center">
                 <mat-form-field appearance="outline">
                 <mat-label>Valor</mat-label>
-                    <input matInput placeholder="Ex. R$ 10,00" formControlName="value" 
-                        [(ngModel)]="paymentBill.Value" class="form-control" required>
+                    <input matInput placeholder="Ex. R$ 10,00" name="Value" formControlName="Value" 
+                    [(ngModel)]="paymentBill.Value" class="form-control" required>
                 </mat-form-field>
             </div>
             <div fxLayout="column" fxLayoutAlign="space-around center">
 
                 <mat-form-field appearance="outline">
                     <mat-label>Vencimento</mat-label>
-                        <input matInput formControlName="dueDate"
-                            [(ngModel)]="paymentBill.DueDate" placeholder="Ex. 05" required>
+                        <input matInput formControlName="DueDate" name="DueDate"
+                        [(ngModel)]="paymentBill.DueDate" placeholder="Ex. 05" required>
                 </mat-form-field>
             </div>
             <div fxLayout="column" fxLayoutAlign="space-around center">
                 <mat-form-field appearance="outline">
-                    <mat-select placeholder="Status" placeholder="Selecione..." required>
+                    <mat-select placeholder="Status" required>
                         <mat-option [value]="false">Pendente</mat-option>
                         <mat-option [value]="true">Pago</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
-            <button mat-raised-button color="primary" color="accent">Adicionar</button>
+            <div class="button-row" fxLayout="row" fxLayoutAlign="end center">
+                <button mat-button color="primary">
+                    Adicionar
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
         </div>
     </form>
 </div>

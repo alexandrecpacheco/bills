@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { finalize, map } from 'rxjs/operators';
-import { PaymentBill } from 'src/interfaces/payment-bills';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { IPaymentBill } from 'src/interfaces/payment-bills';
 import { BillsService } from '../bills.service';
 
 @Component({
@@ -10,52 +9,78 @@ import { BillsService } from '../bills.service';
   styleUrls: ['./detail-bills.component.scss']
 })
 export class DetailBillsComponent implements OnInit {
-
-  form!: FormGroup;
-  paymentBill! : PaymentBill;
-  paymentBills: any;
   
-  constructor(private paymentBillsService : BillsService) {
+  form!: FormGroup;
+  paymentBills!: IPaymentBill[];
+  loading = false;
+  paymentBill!: IPaymentBill;
+  totalPending: number = 0;
+  totalPayed: number = 0;
+  status: boolean = false;
+
+  constructor(private service : BillsService, 
+    private fb: FormBuilder) {
    }
 
   ngOnInit(): void {
-    this.getPaymentBillsList();
     this.createForm();
+    this.getPaymentBills();
   }
 
-  createForm(): void {
-    this.form = new FormGroup({
-        item: new FormControl(''),
-        value: new FormControl(''),
-        dueDate:  new FormControl(''),
-        status:  new FormControl('')
-      });
+  updateStatus(bill: IPaymentBill){
+    this.loading = true;
+    this.service.updateStatus(bill).then(() => {
+      this.loading = false;
+    });
   }
 
-  updateStatus(isActive: boolean){
-    this.paymentBillsService
-    .updateBills(this.paymentBill.Id, { Status: isActive })
-    .catch(err => console.log(err));
+  updateAllStatus(){
+    if (confirm(`Deseja alterar TODOS os status?`)){
+      this.service.updateAllStatus();
+    }
   }
 
-  deleteItem(paymentBill: any){
-    debugger;
-    this.paymentBillsService
-    .deleteBill(paymentBill.Id)
-    .catch(err => console.log(err));
-
-    this.getPaymentBillsList();
+  deleteItem(bill: IPaymentBill){
+    if (confirm(`Deseja apagar o item ${bill.Item}?`)){
+      this.service.deleteBill(bill.Item);
+    }
   }
 
-  getPaymentBillsList() {
-    this.paymentBillsService.getBillsList().snapshotChanges()
-    .pipe(map(changes =>
-            changes.map(c =>
-              ({ Id: c.payload.key, ...c.payload.val()})
-            )
-        )
-    ).subscribe(bills => {
-      this.paymentBills = bills;
+  getPaymentBills() {
+    this.loading = true;
+    this.service.getBillsList().then((data) =>{
+      this.paymentBills = data;
+      this.getTotalBills();
+      this.loading = false;
+      })
+      .catch(err => alert(`GetPaymentBills ${err}`));
+  }
+
+  getTotalBills(){
+    this.paymentBills.forEach(bill => {
+      if (bill.Status === false)
+        this.totalPending += +bill.Value ?? 0;
+      else
+        this.totalPayed += +bill.Value ?? 0;
+    });
+  }
+
+  updateDueDate(bill: IPaymentBill) {
+    bill.DueDate = this.paymentBill.DueDate;
+    this.service.updateBill(bill);
+  }
+
+  updateValue(bill: IPaymentBill) {
+    bill.Value = this.paymentBill.Value;
+    this.service.updateBill(bill);
+  }
+
+  private createForm(): void {
+    this.form = this.fb.group({
+      Item: new FormControl({value: ''}),
+      Value: new FormControl({value: ''}),
+      DueDate: new FormControl({value: ''}),
+      Status: new FormControl({value: false})
     });
   }
 
