@@ -7,6 +7,8 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
 import { Router } from '@angular/router';
 import { User } from 'src/interfaces/user';
 
+import { getDatabase, ref, set } from "firebase/database";
+
 const firebaseApp = initializeApp({
   apiKey: environment.firebase.apiKey,
   authDomain: environment.firebase.authDomain,
@@ -39,17 +41,6 @@ export class BillsService implements OnInit {
     });
   }
 
-  private initializeUser() {
-    return {
-      Email: '',
-      Name: '',
-      Password: '',
-      Token: '',
-      User: '',
-      Uid: ''
-    };
-  }
-
   async signInUser(email: string, password: string) {
     var user: User = this.initializeUser();
 
@@ -64,21 +55,16 @@ export class BillsService implements OnInit {
       this.router.navigate(['/bills']);
     })
     .catch((error) => {
-      console.log(error.code);
       alert(`SignIn error: ${error.message}`);
     })
     .finally();
-  }
-
-  private getToken(uid: string) {
-    localStorage.setItem('SessionUser', uid);
   }
 
   async getBillsList(): Promise<any>{
     try{
       this.uid = localStorage.getItem('SessionUser') ?? '';
       if (this.uid === ''){
-        alert('Voce nao esta logado, volte e logue-se por favor!');
+        alert('Voce nao esta logado!');
         this.router.navigateByUrl('/sigIn');
       }
 
@@ -103,8 +89,8 @@ export class BillsService implements OnInit {
     }
   }
 
-  async getDocument(document: string): Promise<any>{
-    try{
+  async getDocument(document: string): Promise<any> {
+    try {
       const docRef = doc(db, this.uid, document);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
@@ -119,6 +105,7 @@ export class BillsService implements OnInit {
   }
 
   async createNewBill(bill: IPaymentBill) : Promise<void> {
+
     if (bill && this.uid !== ''){
       await setDoc(doc(db, this.uid, bill.Item), {
         Id: bill.Id,
@@ -129,10 +116,11 @@ export class BillsService implements OnInit {
         Value: bill.Value
       })
       .catch((error) => { alert("CreateNew: " + error); })
-      .finally(() => {alert("Cadastro efetuado com sucesso!")})
+      .finally();
     }
-    else {
-      alert("CreateNewBill without values");
+    else 
+    { 
+      alert("CreateNewBill without values"); 
     }
   }
 
@@ -176,19 +164,34 @@ export class BillsService implements OnInit {
     return true;
   }
 
-  async updateAllStatus() {
+  async changeAllStatusToPending() {
     this.paymentBills.forEach((bill) => {
       setDoc(doc(db, this.uid, bill.Item), {
         Item: bill.Item,
         Value: bill.Value,
         DueDate: bill.DueDate,
         Status: false
+      }).catch((error) => { 
+        alert("UpdateStatus: " + error);
+        return false;
+      }).finally(() => {
+        this.updateItem(bill);
+        return true;
       });
     });
   }
 
-  async deleteBill(item: string){
-    await deleteDoc(doc (db, this.uid, item));
+  async deleteBill(bill: IPaymentBill){
+    await deleteDoc(doc (db, this.uid, bill.Item))
+    .catch((error) => {
+      alert('Error Delete: ' + error);
+      return false;
+    })
+    .finally(() => {
+      window.location.reload();
+      //this.changeAllStatusToPending();
+      return true;
+    });
   }
 
   async createNewUser(email: string, password: string) {
@@ -206,6 +209,7 @@ export class BillsService implements OnInit {
     .finally();
   }
 
+  /* Private Methods */
   private getUid() {
     this.uid = `/${localStorage.getItem('SessionUser')}` ?? '/';
   }
@@ -214,14 +218,15 @@ export class BillsService implements OnInit {
    
     onSnapshot(doc(db, this.uid, bill.Item), (doc) => {
       let _bill = doc.data() as IPaymentBill;
-      this.paymentBills.forEach((item, index) => {
-          if (item.Item == _bill.Item) {
-            debugger;
-            this.paymentBills.splice(index, 1);
-            this.paymentBills.push(_bill);
-            this.sortBills();
-          }
-      });
+      if (_bill !== undefined) {
+        this.paymentBills.forEach((item, index) => {
+            if (item.Item == _bill.Item) {
+              this.paymentBills.splice(index, 1);
+              this.paymentBills.push(_bill);
+              this.sortBills();
+            }
+        });
+      }
     });
   }
 
@@ -232,6 +237,21 @@ export class BillsService implements OnInit {
     
       return 0;
     });
+  }
+
+  private getToken(uid: string) {
+    localStorage.setItem('SessionUser', uid);
+  }
+
+  private initializeUser() {
+    return {
+      Email: '',
+      Name: '',
+      Password: '',
+      Token: '',
+      User: '',
+      Uid: ''
+    };
   }
 
 }

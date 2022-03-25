@@ -11,7 +11,7 @@
                 <mat-label class="right">Total Pendente: R$ {{totalPending}} |</mat-label>
             </div>
         </div>
-        <div *ngFor="let bill of paymentBills">
+        <div *ngFor="let bill of $paymentBills">
             <div class="form-group items">
                 <div fxLayout="column" fxLayoutAlign="space-around center">
                     <mat-form-field class="col-100" appearance="fill">
@@ -24,7 +24,7 @@
                     <mat-form-field class="col-70" appearance="fill">
                     <mat-label>Valor</mat-label>
                         <input matInput class="form-control" name="Value" [value]="bill.Value" (blur)="updateValue(bill)"
-                        placeholder="100.00" [(ngModel)]="bill.Value">
+                        placeholder="100.00">
                     </mat-form-field>
                     <mat-form-field class="col-30 margin-left" appearance="fill">
                         <mat-label>Vencimento</mat-label>

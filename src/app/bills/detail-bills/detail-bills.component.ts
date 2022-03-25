@@ -11,7 +11,7 @@ import { BillsService } from '../bills.service';
 export class DetailBillsComponent implements OnInit {
   
   form!: FormGroup;
-  paymentBills!: IPaymentBill[];
+  $paymentBills: IPaymentBill[] = [];
   loading = false;
   paymentBill!: IPaymentBill;
   totalPending: number = 0;
@@ -30,26 +30,27 @@ export class DetailBillsComponent implements OnInit {
   updateStatus(bill: IPaymentBill){
     this.loading = true;
     this.service.updateStatus(bill).then(() => {
+      this.getTotalBills();
       this.loading = false;
     });
   }
 
   updateAllStatus(){
-    if (confirm(`Deseja alterar TODOS os status?`)){
-      this.service.updateAllStatus();
+    if (confirm(`Deseja pendenciar TODOS os status?`)){
+      this.service.changeAllStatusToPending();
     }
   }
 
   deleteItem(bill: IPaymentBill){
     if (confirm(`Deseja apagar o item ${bill.Item}?`)){
-      this.service.deleteBill(bill.Item);
+      this.service.deleteBill(bill);
     }
   }
 
   getPaymentBills() {
     this.loading = true;
     this.service.getBillsList().then((data) =>{
-      this.paymentBills = data;
+      this.$paymentBills = data;
       this.getTotalBills();
       this.loading = false;
       })
@@ -57,7 +58,7 @@ export class DetailBillsComponent implements OnInit {
   }
 
   getTotalBills(){
-    this.paymentBills.forEach(bill => {
+    this.$paymentBills.forEach(bill => {
       if (bill.Status === false)
         this.totalPending += +bill.Value ?? 0;
       else

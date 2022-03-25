@@ -11,4 +11,9 @@ export class ListBillsComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  debitosMensais($event: any){
+    if ($event.index === 0)
+      window.location.reload();
+  }
  }

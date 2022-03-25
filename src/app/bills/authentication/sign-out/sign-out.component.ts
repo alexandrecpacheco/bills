@@ -14,7 +14,9 @@ export class SignOutComponent implements OnInit {
   }
 
   signOut() {
-    localStorage.removeItem('SessionUser');
-    this.router.navigateByUrl('/signIn');
+    if (confirm("Deseja realmente Sair?")){
+      localStorage.removeItem('SessionUser');
+      this.router.navigateByUrl('/signIn');
+    }
   }
 }

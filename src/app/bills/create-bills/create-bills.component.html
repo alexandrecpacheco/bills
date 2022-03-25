@@ -1,5 +1,10 @@
 <div class="container bills">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <ng-container *ngIf="success">
+            <div class="success">
+                <span>Cadastro efetuado com sucesso!</span>
+            </div>
+        </ng-container>
         <div class="form-group">
             <div fxLayout="column" fxLayoutAlign="space-around center">
                 <mat-form-field appearance="outline">
@@ -18,9 +23,12 @@
             <div fxLayout="column" fxLayoutAlign="space-around center">
 
                 <mat-form-field appearance="outline">
-                    <mat-label>Vencimento</mat-label>
-                        <input matInput formControlName="DueDate" name="DueDate"
-                        [(ngModel)]="paymentBill.DueDate" placeholder="Ex. 05" required>
+                    <mat-label>Dias do Mês</mat-label>
+                    <mat-select formControlName="Day" [(ngModel)]="paymentBill.DueDate" name="day">
+                        <mat-option *ngFor="let day of days" [value]="day.value" required>
+                        {{day.value}}
+                        </mat-option>
+                    </mat-select>    
                 </mat-form-field>
             </div>
             <div fxLayout="column" fxLayoutAlign="space-around center">
@@ -32,7 +40,7 @@
                 </mat-form-field>
             </div>
             <div class="button-row" fxLayout="row" fxLayoutAlign="end center">
-                <button mat-button color="primary">
+                <button mat-button color="primary" class="btn btn-lg btn-block btn-status btn-success">
                     Adicionar
                     <mat-icon>add</mat-icon>
                 </button>
