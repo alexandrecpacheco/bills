@@ -75,6 +75,11 @@ export class DetailBillsComponent implements OnInit {
     bill.Value = this.paymentBill.Value;
     this.service.updateBill(bill);
   }
+  
+  onSubmit() {
+    debugger;
+    console.warn(this.form.value);
+  }
 
   private createForm(): void {
     this.form = this.fb.group({

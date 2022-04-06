@@ -32,6 +32,7 @@ import { AngularFireAuthModule } from "@angular/fire/compat/auth";
 import { SignInComponent } from './bills/authentication/sign-in/sign-in.component';
 import { SignOutComponent } from './bills/authentication/sign-out/sign-out.component';
 import { AuthGuardServiceService } from './bills/authentication/auth-guard-service.service';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { AuthGuardServiceService } from './bills/authentication/auth-guard-servi
     FontAwesomeModule,
     MatDividerModule,
     MatIconModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatGridListModule
   ],
   providers: [
     FormControl,

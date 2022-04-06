@@ -1,3 +1,7 @@
+h1 {
+    font-weight: 400;
+    text-align: center;
+}
 .input-group input {
     visibility: visible;
 }
@@ -80,4 +84,25 @@ margin: 8px 8px 8px 0;
 
 .total-pending mat-label {
     padding-right: 3px;
+}
+
+.mat-grid-tile {
+    font-weight: 800;
+    text-align: center;
+}
+
+.main-bill {
+    margin: 10px;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: #f8f8f8;
+		-webkit-box-shadow: 4px 3px 2px rgba(116, 116, 116, 0.77);
+		-moz-box-shadow:    4px 3px 2px rgba(116, 116, 116, 0.77);
+		box-shadow:         4px 3px 2px rgba(116, 116, 116, 0.77);
+}
+
+.container.bills {
+    border-radius: 20px;
+    background-color: #f3f1f1;
+
 }
