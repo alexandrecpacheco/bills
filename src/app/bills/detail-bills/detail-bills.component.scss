@@ -1,5 +1,6 @@
 h1 {
-    font-weight: 400;
+    padding: 10px 0 0 0;
+    font-weight: 500;
     text-align: center;
 }
 .input-group input {
@@ -96,13 +97,28 @@ margin: 8px 8px 8px 0;
     padding: 20px;
     border-radius: 20px;
     background-color: #f8f8f8;
-		-webkit-box-shadow: 4px 3px 2px rgba(116, 116, 116, 0.77);
-		-moz-box-shadow:    4px 3px 2px rgba(116, 116, 116, 0.77);
-		box-shadow:         4px 3px 2px rgba(116, 116, 116, 0.77);
+		-webkit-box-shadow: 3px 2px 1px rgba(116, 116, 116, 0.77);
+		-moz-box-shadow:    3px 2px 1px rgba(116, 116, 116, 0.77);
+		box-shadow:         3px 2px 1px rgba(116, 116, 116, 0.77);
 }
 
 .container.bills {
     border-radius: 20px;
     background-color: #f3f1f1;
 
+}
+
+.btn-item {
+    font-weight: 500;
+}
+
+.success {
+    margin: 0 auto;
+    width: 100%;
+    color: #fff;
+    background: #198754;
+    text-align: center;
+    padding: 10px;
+    font-weight: 400;
+    border-radius: 6px;
 }

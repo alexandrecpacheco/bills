@@ -1,7 +1,4 @@
 <div class="container bills">
-    <div class="spinner">
-        <mat-progress-spinner mode="indeterminate" *ngIf="loading"></mat-progress-spinner>
-    </div>
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
         <h1>Minhas Contas</h1>
         <div class="" fxLayout="column" fxLayoutAlign="space-around right">
@@ -20,21 +17,36 @@
                 </mat-grid-tile>
             </mat-grid-list>
         </div>
-
-
+        <div class="spinner">
+            <mat-progress-spinner mode="indeterminate" *ngIf="loading"></mat-progress-spinner>
+        </div>
+        <ng-container *ngIf="success">
+            <div class="success">
+                <span>Item(s) Salvo(s) com sucesso!</span>
+            </div>
+        </ng-container>
         <div *ngFor="let bill of $paymentBills" class="main-bill">
             <mat-grid-list cols="4" rowHeight="50px">
                 <mat-grid-tile [colspan]="3" [rowspan]="1">
-                        <button class="form-control btn btn-lg btn-block" disabled="disabled" placeholder="Item">{{bill.Item}}</button>
+                        <button *ngIf="!isEdited" class="btn-item form-control btn btn-lg btn-block" disabled="disabled" placeholder="Item">{{bill.Item}}</button>
+                        <div *ngIf="isEdited" fxLayout="column" fxLayoutAlign="space-around center">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Item</mat-label>
+                                <input matInput name="Item" [value]="bill.Item">
+                            </mat-form-field>
+                        </div>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1">
-                    <button class="form-control btn btn-lg btn-block btn-secondary">Editar</button>
+                    <button *ngIf="!isEdited" class="form-control btn btn-lg btn-block btn-secondary" (click)="setEdit()">Editar</button>
+                    <button *ngIf="isEdited" class="form-control btn btn-lg btn-block btn-primary" (click)="save()">
+                        Salvar
+                    </button>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="1" class="mat-grid-tile">
-                    <button class="form-control btn btn-lg btn-block" disabled="disabled">{{bill.DueDate}}</button>
+                    <button class="btn-item form-control btn btn-lg btn-block" disabled="disabled">{{bill.DueDate}}</button>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="3" [rowspan]="1">
-                    <button class="form-control btn btn-lg btn-block" disabled>R$ {{bill.Value}}</button>
+                    <button class="btn-item form-control btn btn-lg btn-block" disabled>R$ {{bill.Value}}</button>
                 </mat-grid-tile>                
             </mat-grid-list>
             <br />

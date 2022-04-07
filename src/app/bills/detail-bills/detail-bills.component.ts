@@ -17,6 +17,8 @@ export class DetailBillsComponent implements OnInit {
   totalPending: number = 0;
   totalPayed: number = 0;
   status: boolean = false;
+  isEdited: boolean = false;
+  success: boolean = false;
 
   constructor(private service : BillsService, 
     private fb: FormBuilder) {
@@ -77,8 +79,23 @@ export class DetailBillsComponent implements OnInit {
   }
   
   onSubmit() {
-    debugger;
     console.warn(this.form.value);
+  }
+
+  setEdit() {
+    this.isEdited = !this.isEdited;
+  }
+
+  async save() {
+    console.log("Salvo!");
+    this.isEdited = !this.isEdited;
+    this.success = true;
+    await this.delay(2500);
+    this.success = false;
+  }
+
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
   }
 
   private createForm(): void {
