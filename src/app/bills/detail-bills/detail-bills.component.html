@@ -25,28 +25,63 @@
                 <span>Item(s) Salvo(s) com sucesso!</span>
             </div>
         </ng-container>
+        <mat-grid-list cols="4" rowHeight="60px">
+            <mat-grid-tile [colspan]="3"></mat-grid-tile>
+            <mat-grid-tile [colspan]="1">
+                <button *ngIf="!isEdited" class="form-control btn btn-lg btn-block btn-secondary" (click)="setEdit()">
+                    Editar
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button *ngIf="isEdited" class="form-control btn btn-lg btn-block btn-primary" (click)="save()">
+                    Salvar
+                    <mat-icon>check</mat-icon>
+                </button>
+            </mat-grid-tile>
+        </mat-grid-list>
         <div *ngFor="let bill of $paymentBills" class="main-bill">
-            <mat-grid-list cols="4" rowHeight="50px">
-                <mat-grid-tile [colspan]="3" [rowspan]="1">
-                        <button *ngIf="!isEdited" class="btn-item form-control btn btn-lg btn-block" disabled="disabled" placeholder="Item">{{bill.Item}}</button>
-                        <div *ngIf="isEdited" fxLayout="column" fxLayoutAlign="space-around center">
-                            <mat-form-field appearance="fill">
+            <mat-grid-list cols="4" rowHeight="60px">
+                <mat-grid-tile [colspan]="4" [rowspan]="1">
+                        <button *ngIf="!isEdited" class="btn-item form-control btn btn-lg btn-block"
+                            disabled="disabled" placeholder="Item">
+                            {{bill.Item}}
+                        </button>
+                        <div *ngIf="isEdited" fxLayout="column" class="is-edited" fxLayoutAlign="space-around center">
+                            <mat-form-field appearance="outline">
                                 <mat-label>Item</mat-label>
                                 <input matInput name="Item" [value]="bill.Item">
                             </mat-form-field>
                         </div>
                 </mat-grid-tile>
-                <mat-grid-tile [colspan]="1">
-                    <button *ngIf="!isEdited" class="form-control btn btn-lg btn-block btn-secondary" (click)="setEdit()">Editar</button>
+                <!-- <mat-grid-tile [colspan]="1">
+                    <button *ngIf="!isEdited" class="form-control btn btn-lg btn-block btn-secondary" (click)="setEdit()">
+                        Editar
+                    </button>
                     <button *ngIf="isEdited" class="form-control btn btn-lg btn-block btn-primary" (click)="save()">
                         Salvar
                     </button>
-                </mat-grid-tile>
+                </mat-grid-tile> -->
                 <mat-grid-tile [colspan]="1" [rowspan]="1" class="mat-grid-tile">
-                    <button class="btn-item form-control btn btn-lg btn-block" disabled="disabled">{{bill.DueDate}}</button>
+                    <button *ngIf="!isEdited" class="btn-item form-control btn btn-lg btn-block" disabled="disabled">
+                        {{bill.DueDate}}
+                    </button>
+                    <div *ngIf="isEdited" fxLayout="column" class="is-edited" fxLayoutAlign="space-around center">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Vencimento</mat-label>
+                            <input matInput class="form-control" name="DueDate" [value]="bill.DueDate" (blur)="updateDueDate(bill)">
+                        </mat-form-field>
+                    </div>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="3" [rowspan]="1">
-                    <button class="btn-item form-control btn btn-lg btn-block" disabled>R$ {{bill.Value}}</button>
+                    <button *ngIf="!isEdited" class="btn-item form-control btn btn-lg btn-block" disabled>
+                        R$ {{bill.Value}}
+                    </button>
+                    <div *ngIf="isEdited" fxLayout="column" class="is-edited" fxLayoutAlign="space-around center">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Valor</mat-label>
+                        <input matInput class="form-control" name="Value" [value]="bill.Value" (blur)="updateValue(bill)"
+                            placeholder="100.00">
+                        </mat-form-field>
+                    </div>
                 </mat-grid-tile>                
             </mat-grid-list>
             <br />
@@ -82,7 +117,7 @@
                 </div>
                 <div fxLayout="row" class="value-duedate" fxLayoutAlign="space-around center">
                     <mat-form-field class="col-70" appearance="fill">
-                    <mat-label>Valor</mat-label>
+                        <mat-label>Valor</mat-label>
                         <input matInput class="form-control" name="Value" [value]="bill.Value" (blur)="updateValue(bill)"
                         placeholder="100.00">
                     </mat-form-field>

@@ -90,12 +90,8 @@ export class DetailBillsComponent implements OnInit {
     console.log("Salvo!");
     this.isEdited = !this.isEdited;
     this.success = true;
-    await this.delay(2500);
+    await new Promise(resolve => setTimeout(resolve, 2500));
     this.success = false;
-  }
-
-  delay(ms: number) {
-    return new Promise( resolve => setTimeout(resolve, ms) );
   }
 
   private createForm(): void {
