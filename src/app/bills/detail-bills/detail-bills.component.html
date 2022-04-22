@@ -32,7 +32,7 @@
                     Editar
                     <mat-icon>edit</mat-icon>
                 </button>
-                <button *ngIf="isEdited" class="form-control btn btn-lg btn-block btn-primary" (click)="save()">
+                <button *ngIf="isEdited" type="submit" class="form-control btn btn-lg btn-block btn-primary">
                     Salvar
                     <mat-icon>check</mat-icon>
                 </button>
@@ -48,7 +48,7 @@
                         <div *ngIf="isEdited" fxLayout="column" class="is-edited" fxLayoutAlign="space-around center">
                             <mat-form-field appearance="outline">
                                 <mat-label>Item</mat-label>
-                                <input matInput name="Item" [value]="bill.Item">
+                                <input matInput name="Item" formControlName="Item">{{bill.Item}}
                             </mat-form-field>
                         </div>
                 </mat-grid-tile>
@@ -67,7 +67,8 @@
                     <div *ngIf="isEdited" fxLayout="column" class="is-edited" fxLayoutAlign="space-around center">
                         <mat-form-field appearance="outline">
                             <mat-label>Vencimento</mat-label>
-                            <input matInput class="form-control" name="DueDate" [value]="bill.DueDate" (blur)="updateDueDate(bill)">
+                            <input matInput class="form-control" name="DueDate" formControlName="DueDate" 
+                                [value]="bill.DueDate">
                         </mat-form-field>
                     </div>
                 </mat-grid-tile>
@@ -76,10 +77,12 @@
                         R$ {{bill.Value}}
                     </button>
                     <div *ngIf="isEdited" fxLayout="column" class="is-edited" fxLayoutAlign="space-around center">
-                        <mat-form-field appearance="outline">
-                            <mat-label>Valor</mat-label>
-                        <input matInput class="form-control" name="Value" [value]="bill.Value" (blur)="updateValue(bill)"
-                            placeholder="100.00">
+                        <mat-form-field appearance="outline" floatLabel="always">
+                            <mat-label>Amount</mat-label>
+                            <input matInput class="form-control" type="number" name="Value" formControlName="Value"
+                                [value]="bill.Value">
+                            <span matPrefix>R$&nbsp;</span>
+                            <span matSuffix>.00</span>
                         </mat-form-field>
                     </div>
                 </mat-grid-tile>                

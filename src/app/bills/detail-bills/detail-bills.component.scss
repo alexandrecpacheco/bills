@@ -129,6 +129,9 @@ margin: 8px 8px 8px 0;
 }
 
 mat-form-field {
-    text-align: center;
     width: 100%;
+}
+
+mat-form-field input {
+    text-align: center;
 }

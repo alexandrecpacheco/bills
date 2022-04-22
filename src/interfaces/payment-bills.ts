@@ -6,3 +6,10 @@ export interface IPaymentBill{
     Status : boolean;
     Value : number;
 }
+
+export class PaymentBill {
+    Item : string = '';
+    DueDate : string = '';
+    Status : boolean = false;
+    Value : number = 0;
+}

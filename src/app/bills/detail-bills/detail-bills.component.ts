@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { IPaymentBill } from 'src/interfaces/payment-bills';
+import { IPaymentBill, PaymentBill } from 'src/interfaces/payment-bills';
 import { BillsService } from '../bills.service';
 
 @Component({
@@ -19,13 +19,13 @@ export class DetailBillsComponent implements OnInit {
   status: boolean = false;
   isEdited: boolean = false;
   success: boolean = false;
-
+  
   constructor(private service : BillsService, 
     private fb: FormBuilder) {
    }
 
   ngOnInit(): void {
-    this.createForm();
+    this.createForm(new PaymentBill());
     this.getPaymentBills();
   }
 
@@ -78,8 +78,14 @@ export class DetailBillsComponent implements OnInit {
     this.service.updateBill(bill);
   }
   
-  onSubmit() {
+  async onSubmit() {
+    debugger;
     console.warn(this.form.value);
+    //this.service.updateBill(bill);
+    this.isEdited = !this.isEdited;
+    this.success = true;
+    await new Promise(resolve => setTimeout(resolve, 2500));
+    this.success = false;
   }
 
   setEdit() {
@@ -87,19 +93,19 @@ export class DetailBillsComponent implements OnInit {
   }
 
   async save() {
-    console.log("Salvo!");
     this.isEdited = !this.isEdited;
     this.success = true;
+    this.onSubmit();
     await new Promise(resolve => setTimeout(resolve, 2500));
     this.success = false;
   }
 
-  private createForm(): void {
+  private createForm(bill: PaymentBill) {
     this.form = this.fb.group({
-      Item: new FormControl({value: ''}),
-      Value: new FormControl({value: ''}),
-      DueDate: new FormControl({value: ''}),
-      Status: new FormControl({value: false})
+      Item: [bill.Item],
+      Value: [bill.Value],
+      DueDate: [bill.DueDate],
+      Status: [bill.Status]
     });
   }
 
