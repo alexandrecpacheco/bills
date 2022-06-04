@@ -1,3 +1,7 @@
+body.mat-typography {
+    background-color: #f3f1f1;
+}
+
 h1 {
     padding: 10px 0 0 0;
     font-weight: 500;
@@ -63,6 +67,7 @@ margin: 8px 8px 8px 0;
 .spinner {
     margin: 0 auto;
     width: 0;
+    width: 30%;
 }
 
 .right {
@@ -76,11 +81,7 @@ margin: 8px 8px 8px 0;
 .btn-intern {
     padding-top: 10px;
     margin: 0 auto;
-    width: 23%;
-}
-
-.btn-status {
-    width: 300px;
+    float:right;
 }
 
 .total-pending mat-label {
@@ -103,9 +104,7 @@ margin: 8px 8px 8px 0;
 }
 
 .container.bills {
-    border-radius: 20px;
     background-color: #f3f1f1;
-
 }
 
 .btn-item {
@@ -134,4 +133,8 @@ mat-form-field {
 
 mat-form-field input {
     text-align: center;
+}
+
+mat-tab-header.mat-tab-header {
+    background-color: white;
 }
