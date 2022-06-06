@@ -60,6 +60,8 @@ export class DetailBillsComponent implements OnInit {
   }
 
   getTotalBills(){
+    this.totalPending = 0;
+    this.totalPayed = 0;
     this.$paymentBills.forEach(bill => {
       if (bill.Status === false)
         this.totalPending += +bill.Value ?? 0;
@@ -79,25 +81,15 @@ export class DetailBillsComponent implements OnInit {
   }
   
   async onSubmit() {
-    debugger;
-    console.warn(this.form.value);
-    //this.service.updateBill(bill);
-    this.isEdited = !this.isEdited;
-    this.success = true;
-    await new Promise(resolve => setTimeout(resolve, 2500));
-    this.success = false;
+    // let form = this.form.value;
+    // this.success = true;
+    // await new Promise(resolve => setTimeout(resolve, 2500));
+    // this.success = false;
+    //this.setEdit();
   }
 
   setEdit() {
     this.isEdited = !this.isEdited;
-  }
-
-  async save() {
-    this.isEdited = !this.isEdited;
-    this.success = true;
-    this.onSubmit();
-    await new Promise(resolve => setTimeout(resolve, 2500));
-    this.success = false;
   }
 
   private createForm(bill: PaymentBill) {

@@ -51,7 +51,6 @@ export class BillsService implements OnInit {
       user.Email = userCredential.user.email ?? '';
       user.Name = userCredential.user.displayName ?? '';
       user.Uid = userCredential.user.uid;
-      
       this.router.navigate(['/bills']);
     })
     .catch((error) => {

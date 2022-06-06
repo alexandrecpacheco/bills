@@ -61,8 +61,14 @@ margin: 8px 8px 8px 0;
 }
 
 .spinner {
-    margin: 0 auto;
-    width: 0;
+    width: 100%;
+    position: inherit;
+    z-index: 999;
+    height: 100%;
+}
+
+.spinner mat-progress-spinner {
+    left: 45%;
 }
 
 .right {
