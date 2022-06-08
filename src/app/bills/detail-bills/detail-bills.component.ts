@@ -1,5 +1,5 @@
-import { Component, ElementRef, OnInit, Pipe, PipeTransform } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Component, ElementRef, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { IPaymentBill, PaymentBill } from 'src/interfaces/payment-bills';
 import { BillsService } from '../bills.service';
 
@@ -19,7 +19,6 @@ export class DetailBillsComponent implements OnInit {
   totalPayed: number = 0;
   status: boolean = false;
   isEdited: boolean = false;
-  success: boolean = false;
   btnElement!: HTMLElement | null | undefined;
 
   constructor(private service : BillsService, 
@@ -27,7 +26,6 @@ export class DetailBillsComponent implements OnInit {
    }
 
   ngOnInit(): void {
-
     this.createForm(new PaymentBill());
     this.getPaymentBills();
   }
@@ -60,7 +58,6 @@ export class DetailBillsComponent implements OnInit {
       );
     if (btnElement !== null)
       btnElement.outerHTML = '';
-   
   }
 
   async getPaymentBills() {
@@ -68,18 +65,18 @@ export class DetailBillsComponent implements OnInit {
     this.loading = true;
     this.service.getBillsList().then((data) =>{
       this.paymentBills = [];
-      this.paymentBills = data;
-      this.getTotalBills();
-      this.loading = false;
-      })
-      .catch(err => alert(`GetPaymentBills ${err}`));
+      if (data){
+        this.paymentBills = data;
+        this.getTotalBills();
+        this.loading = false;
+      }
+    }).catch(err => alert(`GetPaymentBills ${err}`));
   }
 
   getTotalBills(){
     this.totalPending = 0;
     this.totalPayed = 0;
     this.paymentBills.forEach(bill => {
-      debugger;
       if (bill.Status === false){
         this.totalPending += +bill.Value ?? 0;
       }
@@ -101,9 +98,7 @@ export class DetailBillsComponent implements OnInit {
   
   async onSubmit() {
     this.isEdited = !this.isEdited;
-    this.success = true;
     await new Promise(resolve => setTimeout(resolve, 2500));
-    this.success = false;
   }
 
   setEdit() {
@@ -112,10 +107,8 @@ export class DetailBillsComponent implements OnInit {
 
   async save() {
     this.isEdited = !this.isEdited;
-    this.success = true;
     this.onSubmit();
     await new Promise(resolve => setTimeout(resolve, 2500));
-    this.success = false;
   }
 
   private createForm(bill: PaymentBill) {

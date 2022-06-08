@@ -42,22 +42,21 @@ export class BillsService implements OnInit {
   }
 
   async signInUser(email: string, password: string) {
+
     var user: User = this.initializeUser();
 
-    signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      this.getToken(userCredential.user.uid);
+      signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        this.getToken(userCredential.user.uid);
 
-      user.Email = userCredential.user.email ?? '';
-      user.Name = userCredential.user.displayName ?? '';
-      user.Uid = userCredential.user.uid;
-      
-      this.router.navigate(['/bills']);
-    })
-    .catch((error) => {
-      alert(`SignIn error: ${error.message}`);
-    })
-    .finally();
+
+        this.router.navigate(['/bills']);
+      })
+      .catch((error) => {
+        alert(`SignIn error: ${error.message}`);
+      })
+      .finally();
+
   }
 
   async getBillsList(): Promise<any>{
@@ -68,10 +67,10 @@ export class BillsService implements OnInit {
         this.router.navigateByUrl('/sigIn');
       }
 
+      this.paymentBills = [];
       const billRef = collection(db, this.uid);
       const querySnap = await query(billRef);
       const docSnap = await getDocs(querySnap);
-      
       docSnap.forEach((doc) => {
         if (doc.exists()) {
           if (doc.data() !== undefined) {
@@ -188,10 +187,9 @@ export class BillsService implements OnInit {
       return false;
     })
     .finally(() => {
-      window.location.reload();
-      //this.changeAllStatusToPending();
       return true;
     });
+    return false;
   }
 
   async createNewUser(email: string, password: string) {
