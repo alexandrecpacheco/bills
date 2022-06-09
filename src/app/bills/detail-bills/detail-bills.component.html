@@ -1,18 +1,16 @@
 <div class="container bills">
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
         <h1>Minhas Contas</h1>
-        <div class="" fxLayout="column" fxLayoutAlign="space-around right">
-            <mat-grid-list cols="6" rowHeight="50px">
-                <mat-grid-tile [colspan]="2" [rowspan]="1"></mat-grid-tile>
-                <mat-grid-tile [colspan]="1" [rowspan]="1">
+        <div class="header" fxLayout="column" fxLayoutAlign="space-around right">
+            <mat-grid-list cols="4" rowHeight="50px">
+                <mat-grid-tile [colspan]="2" [rowspan]="1">
                     <div class="total-pending">
-                        <mat-label>Pendente: R$ {{totalPending}},00</mat-label>
+                        <mat-label>Pendente: R$ {{totalPending}}</mat-label>
                     </div>
                 </mat-grid-tile>
-                <mat-grid-tile [colspan]="2" [rowspan]="1"></mat-grid-tile>
-                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <mat-grid-tile [colspan]="2" [rowspan]="1">
                     <div class="total-payed">
-                        <mat-label>Pago: R$ {{totalPayed}},00</mat-label>
+                        <mat-label>Pago: R$ {{totalPayed}}</mat-label>
                     </div>
                 </mat-grid-tile>
             </mat-grid-list>
@@ -20,46 +18,20 @@
         <div class="spinner">
             <mat-progress-spinner mode="indeterminate" *ngIf="loading"></mat-progress-spinner>
         </div>
-        <!--<ng-container *ngIf="success">
-            <div class="success">
-                <span>Item(s) Salvo(s) com sucesso!</span>
-            </div>
-        </ng-container>
-         <mat-grid-list cols="4" rowHeight="60px">
-            <mat-grid-tile [colspan]="3"></mat-grid-tile>
-            <mat-grid-tile [colspan]="1">
-                <button *ngIf="!isEdited" class="form-control btn btn-lg btn-block btn-secondary" (click)="setEdit()">
-                    Editar
-                    <mat-icon>edit</mat-icon>
-                </button>
-                <button *ngIf="isEdited" type="submit" class="form-control btn btn-lg btn-block btn-primary">
-                    Salvar
-                    <mat-icon>check</mat-icon>
-                </button>
-            </mat-grid-tile>
-        </mat-grid-list> -->
-        <div *ngFor="let bill of $paymentBills" class="main-bill">
+        <div *ngFor="let bill of paymentBills" class="main-bill">
             <mat-grid-list cols="4" rowHeight="60px">
                 <mat-grid-tile [colspan]="4" [rowspan]="1">
-                    <button *ngIf="!isEdited" class="btn-item form-control btn btn-lg btn-block"
-                        disabled="disabled" placeholder="Item">
-                        {{bill.Item}}
-                    </button>
-                    <div *ngIf="isEdited" fxLayout="column" class="is-edited" fxLayoutAlign="space-around center">
-                        <mat-form-field appearance="outline">
-                            <mat-label>Item</mat-label>
-                            <input matInput name="Item" formControlName="Item">{{bill.Item}}
-                        </mat-form-field>
-                    </div>
+                        <button *ngIf="!isEdited" class="btn-item form-control btn btn-lg btn-block"
+                            disabled="disabled" placeholder="Item">
+                            {{bill.Item}}
+                        </button>
+                        <div *ngIf="isEdited" fxLayout="column" class="is-edited" fxLayoutAlign="space-around center">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Item</mat-label>
+                                <input matInput name="Item" formControlName="Item">{{bill.Item}}
+                            </mat-form-field>
+                        </div>
                 </mat-grid-tile>
-                <!-- <mat-grid-tile [colspan]="1">
-                    <button *ngIf="!isEdited" class="form-control btn btn-lg btn-block btn-secondary" (click)="setEdit()">
-                        Editar
-                    </button>
-                    <button *ngIf="isEdited" class="form-control btn btn-lg btn-block btn-primary" (click)="save()">
-                        Salvar
-                    </button>
-                </mat-grid-tile> -->
                 <mat-grid-tile [colspan]="1" [rowspan]="1" class="mat-grid-tile">
                     <button *ngIf="!isEdited" class="btn-item form-control btn btn-lg btn-block" disabled="disabled">
                         {{bill.DueDate}}
@@ -106,7 +78,8 @@
                 </div>
             </div>
         </div>
-       <div class="buttons" fxLayout="row" fxLayoutAlign="end center">
+
+        <div class="buttons" fxLayout="row" fxLayoutAlign="end center">
             <div class="btn-intern">
             <button mat-button name="Pendenciar" (click)='updateAllStatus()'
                 class="btn btn-lg btn-block btn-status btn-warning pendenciar"
