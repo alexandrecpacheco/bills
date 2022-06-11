@@ -22,7 +22,7 @@ export class DetailBillsComponent implements OnInit {
   btnElement!: HTMLElement | null | undefined;
 
   constructor(private service : BillsService, 
-    private fb: FormBuilder, private ElByClassName: ElementRef) {
+    private fb: FormBuilder) {
    }
 
   ngOnInit(): void {
@@ -52,16 +52,7 @@ export class DetailBillsComponent implements OnInit {
     }
   }
 
-  cleanBillHTML(){
-    const btnElement = (<HTMLElement>this.ElByClassName.nativeElement).querySelector(
-      '.main-bill.ng-star-inserted'
-      );
-    if (btnElement !== null)
-      btnElement.outerHTML = '';
-  }
-
   async getPaymentBills() {
-    this.cleanBillHTML();
     this.loading = true;
     this.service.getBillsList().then((data) =>{
       this.paymentBills = [];
@@ -97,18 +88,7 @@ export class DetailBillsComponent implements OnInit {
   }
   
   async onSubmit() {
-    this.isEdited = !this.isEdited;
-    await new Promise(resolve => setTimeout(resolve, 2500));
-  }
-
-  setEdit() {
-    this.isEdited = !this.isEdited;
-  }
-
-  async save() {
-    this.isEdited = !this.isEdited;
-    this.onSubmit();
-    await new Promise(resolve => setTimeout(resolve, 2500));
+    //await new Promise(resolve => setTimeout(resolve, 2500));
   }
 
   private createForm(bill: PaymentBill) {

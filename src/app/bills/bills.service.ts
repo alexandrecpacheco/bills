@@ -143,6 +143,7 @@ export class BillsService implements OnInit {
     });
   }
 
+  //TODO: Edit data
   async updateStatus(bill: IPaymentBill) {
 
     await setDoc(doc(db, this.uid, bill.Item), {
@@ -185,11 +186,10 @@ export class BillsService implements OnInit {
     .catch((error) => {
       alert('Error Delete: ' + error);
       return false;
-    })
-    .finally(() => {
+    }).finally(() => {
       return true;
     });
-    return false;
+    return true;
   }
 
   async createNewUser(email: string, password: string) {
