@@ -18,7 +18,6 @@ export class DetailBillsComponent implements OnInit {
   totalPending: number = 0;
   totalPayed: number = 0;
   status: boolean = false;
-  isEdited: boolean = false;
   btnElement!: HTMLElement | null | undefined;
 
   constructor(private service : BillsService, 
@@ -33,8 +32,7 @@ export class DetailBillsComponent implements OnInit {
   updateStatus(bill: IPaymentBill){
     this.loading = true;
     this.service.updateStatus(bill).then(() => {
-      this.getTotalBills();
-      this.loading = false;
+      this.getPaymentBills();
     });
   }
 

@@ -18,7 +18,6 @@ import { MatGridListModule } from '@angular/material/grid-list';
   imports: [
     BrowserModule,
     ReactiveFormsModule,
-
     FontAwesomeModule,
     MatTabsModule,
     MatFormFieldModule,

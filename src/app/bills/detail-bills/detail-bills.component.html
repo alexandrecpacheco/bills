@@ -21,42 +21,20 @@
         <div *ngFor="let bill of paymentBills" class="main-bill">
             <mat-grid-list cols="4" rowHeight="60px">
                 <mat-grid-tile [colspan]="4" [rowspan]="1">
-                        <button *ngIf="!isEdited" class="btn-item form-control btn btn-lg btn-block"
+                        <button class="btn-item form-control btn btn-lg btn-block"
                             disabled="disabled" placeholder="Item">
                             {{bill.Item}}
                         </button>
-                        <div *ngIf="isEdited" fxLayout="column" class="is-edited" fxLayoutAlign="space-around center">
-                            <mat-form-field appearance="outline">
-                                <mat-label>Item</mat-label>
-                                <input matInput name="Item" formControlName="Item">{{bill.Item}}
-                            </mat-form-field>
-                        </div>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1" [rowspan]="1" class="mat-grid-tile">
-                    <button *ngIf="!isEdited" class="btn-item form-control btn btn-lg btn-block" disabled="disabled">
+                    <button class="btn-item form-control btn btn-lg btn-block" disabled="disabled">
                         {{bill.DueDate}}
                     </button>
-                    <div *ngIf="isEdited" fxLayout="column" class="is-edited" fxLayoutAlign="space-around center">
-                        <mat-form-field appearance="outline">
-                            <mat-label>Vencimento</mat-label>
-                            <input matInput class="form-control" name="DueDate" formControlName="DueDate" 
-                                [value]="bill.DueDate">
-                        </mat-form-field>
-                    </div>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="3" [rowspan]="1">
-                    <button *ngIf="!isEdited" class="btn-item form-control btn btn-lg btn-block" disabled>
+                    <button class="btn-item form-control btn btn-lg btn-block" disabled>
                         R$ {{bill.Value}}
                     </button>
-                    <div *ngIf="isEdited" fxLayout="column" class="is-edited" fxLayoutAlign="space-around center">
-                        <mat-form-field appearance="outline" floatLabel="always">
-                            <mat-label>Amount</mat-label>
-                            <input matInput class="form-control" type="number" name="Value" formControlName="Value"
-                                [value]="bill.Value">
-                            <span matPrefix>R$&nbsp;</span>
-                            <span matSuffix>.00</span>
-                        </mat-form-field>
-                    </div>
                 </mat-grid-tile>                
             </mat-grid-list>
             <br />

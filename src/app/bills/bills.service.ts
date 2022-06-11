@@ -43,19 +43,16 @@ export class BillsService implements OnInit {
 
   async signInUser(email: string, password: string) {
 
-    var user: User = this.initializeUser();
-
-      signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        this.getToken(userCredential.user.uid);
-
-
-        this.router.navigate(['/bills']);
-      })
-      .catch((error) => {
-        alert(`SignIn error: ${error.message}`);
-      })
-      .finally();
+    this.initializeUser();
+    signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      this.getToken(userCredential.user.uid);
+      this.router.navigate(['/bills']);
+    })
+    .catch((error) => {
+      alert(`SignIn error: ${error.message}`);
+    })
+    .finally();
 
   }
 
@@ -95,7 +92,7 @@ export class BillsService implements OnInit {
       if (docSnap.exists()) {
         return docSnap.data();
       } else {
-        alert("No data has been found!");
+        alert("Nenhum item foi encontrado!");
       }
       return null;
     } catch(error){
