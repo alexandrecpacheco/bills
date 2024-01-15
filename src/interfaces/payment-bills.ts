@@ -5,6 +5,13 @@ export interface IPaymentBill{
     Key : string;
     Status : boolean;
     Value : number;
+    Items: IItemPaymentBill[];
+}
+
+export interface IItemPaymentBill {
+    Id: number;
+    Item: string;
+    Value: number;
 }
 
 export class PaymentBill {

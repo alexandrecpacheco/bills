@@ -44,7 +44,7 @@ export class BillsService implements OnInit {
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       this.getToken(userCredential.user.uid);
-      this.router.navigate(['/bills']);
+      this.router.navigate(['/home']);
     })
     .catch((error) => {
       alert(`SignIn error: ${error.message}`);
@@ -106,7 +106,8 @@ export class BillsService implements OnInit {
         Item: bill.Item,
         DueDate: bill.DueDate,
         Status: bill.Status,
-        Value: bill.Value
+        Value: bill.Value,
+        Items: bill.Items
       })
       .catch((error) => { alert("CreateNew: " + error); })
       .finally();
@@ -190,7 +191,6 @@ export class BillsService implements OnInit {
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in 
-      debugger;
       const user = userCredential.user;
       // ...
     })

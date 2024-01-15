@@ -8,8 +8,8 @@ import { BillsService } from '../../bills.service';
   templateUrl: './log-in.component.html',
   styleUrls: ['./log-in.component.scss']
 })
-export class LogInComponent implements OnInit {
 
+export class LogInComponent implements OnInit {
   @Input() user!: User;
   form!: FormGroup;
   email = '';
