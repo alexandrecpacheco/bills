@@ -59,7 +59,7 @@ export class DetailBillsComponent implements OnInit {
         this.getTotalBills();
         this.loading = false;
       }
-    }).catch(err => alert(`GetPaymentBills ${err}`));
+    }).catch(err =>{ alert(`GetPaymentBills ${err}`); this.loading = false; });
   }
 
   getTotalBills(){

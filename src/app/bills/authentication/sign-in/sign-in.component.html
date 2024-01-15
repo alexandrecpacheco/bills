@@ -3,7 +3,7 @@
 </div>
 <div class="container bills center-screen">
     <div class="form-group items" class="sign-in">
-        <form [formGroup]="form" (ngSubmit)="signIn()">
+        <form [formGroup]="form" (ngSubmit)="logIn()">
             <div class="email" fxLayout="column" fxLayoutAlign="space-around center">
                 <mat-form-field class="col-100" appearance="outline" class="w-100-p">
                     <mat-label>Email</mat-label>
@@ -25,6 +25,8 @@
                     Log In
                 </button>
             </div>
+            <div class="log-in"><a href="./logIn">Criar usuário</a></div>
+            <div class="log-in"><a href="./logIn">Recuperar Senha</a></div>
         </form>
     </div>
 </div>

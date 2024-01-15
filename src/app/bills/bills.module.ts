@@ -13,8 +13,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
-  declarations: [
-  ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,

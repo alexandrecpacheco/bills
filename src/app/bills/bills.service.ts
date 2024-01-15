@@ -5,9 +5,6 @@ import { onSnapshot, getFirestore, setDoc, doc, getDoc, query, collection, getDo
 import { environment } from 'src/environments/environment';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, UserCredential } from "firebase/auth";
 import { Router } from '@angular/router';
-import { User } from 'src/interfaces/user';
-
-import { getDatabase, ref, set } from "firebase/database";
 
 const firebaseApp = initializeApp({
   apiKey: environment.firebase.apiKey,
@@ -41,7 +38,7 @@ export class BillsService implements OnInit {
     });
   }
 
-  async signInUser(email: string, password: string) {
+  async login(email: string, password: string) {
 
     this.initializeUser();
     signInWithEmailAndPassword(auth, email, password)
@@ -193,6 +190,7 @@ export class BillsService implements OnInit {
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in 
+      debugger;
       const user = userCredential.user;
       // ...
     })
