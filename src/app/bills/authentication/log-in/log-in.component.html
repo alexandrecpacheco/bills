@@ -1,0 +1,37 @@
+<div class="sign-in-title">
+    <h1>Criar Novo Usuário</h1>
+ </div>
+ <div class="container bills center-screen">
+     <div class="form-group items" class="sign-in">
+         <form [formGroup]="form" (ngSubmit)="logIn()">
+             <div class="email" fxLayout="column" fxLayoutAlign="space-around center">
+                 <mat-form-field class="col-100" appearance="outline" class="w-100-p">
+                     <mat-label>E-mail</mat-label>
+                     <input matInput class="form-control" name="Email" [(ngModel)]="email"
+                     placeholder="Email" formControlName="Email">
+                 </mat-form-field>
+             </div>
+             <div fxLayout="column" fxLayoutAlign="space-around center">
+                 <mat-form-field class="col-100" appearance="outline" class="w-100-p">
+                     <mat-label>Senha</mat-label>
+                     <input matInput type="password" class="form-control" [(ngModel)]="password" [type]="showPassword ? 'text' : 'password'"
+                     name="Password" placeholder="Password" formControlName="Password">
+                 </mat-form-field>
+             </div>
+             <div fxLayout="column" fxLayoutAlign="space-around center">
+                <mat-form-field class="col-100" appearance="outline" class="w-100-p">
+                    <mat-label>Confirmar Senha</mat-label>
+                    <input matInput type="password" class="form-control" [(ngModel)]="password" [type]="showPassword ? 'text' : 'password'"
+                    name="Password" placeholder="Password" formControlName="Password">
+                </mat-form-field>
+            </div>
+             <div class="btn-row">
+                 <button mat-button name="log-in"
+                     class="btn btn-lg btn-block btn-status btn-warning btn-login"
+                     ngDefaultControl type="submit">
+                     Criar
+                 </button>
+             </div>
+         </form>
+     </div>
+ </div>

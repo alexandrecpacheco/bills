@@ -16,7 +16,7 @@
             </mat-grid-list>
         </div>
         <div class="spinner">
-            <mat-progress-spinner mode="indeterminate" *ngIf="loading"></mat-progress-spinner>
+            <mat-progress-spinner [diameter]="40" mode="indeterminate" *ngIf="loading"></mat-progress-spinner>
         </div>
         <div *ngFor="let bill of paymentBills" class="main-bill">
             <mat-grid-list cols="4" rowHeight="60px">

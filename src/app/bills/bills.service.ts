@@ -5,9 +5,6 @@ import { onSnapshot, getFirestore, setDoc, doc, getDoc, query, collection, getDo
 import { environment } from 'src/environments/environment';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, UserCredential } from "firebase/auth";
 import { Router } from '@angular/router';
-import { User } from 'src/interfaces/user';
-
-import { getDatabase, ref, set } from "firebase/database";
 
 const firebaseApp = initializeApp({
   apiKey: environment.firebase.apiKey,
@@ -41,13 +38,13 @@ export class BillsService implements OnInit {
     });
   }
 
-  async signInUser(email: string, password: string) {
+  async login(email: string, password: string) {
 
     this.initializeUser();
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       this.getToken(userCredential.user.uid);
-      this.router.navigate(['/bills']);
+      this.router.navigate(['/home']);
     })
     .catch((error) => {
       alert(`SignIn error: ${error.message}`);
@@ -109,7 +106,8 @@ export class BillsService implements OnInit {
         Item: bill.Item,
         DueDate: bill.DueDate,
         Status: bill.Status,
-        Value: bill.Value
+        Value: bill.Value,
+        Items: bill.Items
       })
       .catch((error) => { alert("CreateNew: " + error); })
       .finally();

@@ -59,7 +59,7 @@ export class DetailBillsComponent implements OnInit {
         this.getTotalBills();
         this.loading = false;
       }
-    }).catch(err => alert(`GetPaymentBills ${err}`));
+    }).catch(err =>{ alert(`GetPaymentBills ${err}`); this.loading = false; });
   }
 
   getTotalBills(){
@@ -75,16 +75,6 @@ export class DetailBillsComponent implements OnInit {
     });
   }
 
-  updateDueDate(bill: IPaymentBill) {
-    bill.DueDate = this.paymentBill.DueDate;
-    this.service.updateBill(bill);
-  }
-
-  updateValue(bill: IPaymentBill) {
-    bill.Value = this.paymentBill.Value;
-    this.service.updateBill(bill);
-  }
-  
   async onSubmit() {
     //await new Promise(resolve => setTimeout(resolve, 2500));
   }

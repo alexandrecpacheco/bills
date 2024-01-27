@@ -4,23 +4,23 @@ import { User } from 'src/interfaces/user';
 import { BillsService } from '../../bills.service';
 
 @Component({
-  selector: 'app-sign-in',
-  templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.scss']
+  selector: 'app-log-in',
+  templateUrl: './log-in.component.html',
+  styleUrls: ['./log-in.component.scss']
 })
 
-export class SignInComponent implements OnInit {
-
+export class LogInComponent implements OnInit {
   @Input() user!: User;
   form!: FormGroup;
-  email: string = '';
-  password: string = '';
+  email = '';
+  password = '';
+  showPassword = false;
 
   constructor(private billsService : BillsService,
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    localStorage.setItem('SessionUser', '');
+    localStorage.setItem('LoginUser', '');
     this.createForm();
   }
 
@@ -33,7 +33,12 @@ export class SignInComponent implements OnInit {
 
   logIn() {
     if (this.form.valid){
-      this.billsService.login(this.email, this.password);
+      this.billsService.createNewUser(this.email, this.password);
     }
   }
+
+  toggleShow() {
+    this.showPassword = !this.showPassword;
+  }
 }
+

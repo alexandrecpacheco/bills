@@ -31,11 +31,13 @@ export class CreateBillsComponent implements OnInit {
 
   async onSubmit(){
     this.paymentBill.Key = Math.floor(Date.now()/1000).toString();
+    
     this.billsService.createNewBill(this.paymentBill)
     .then(async () => {
       this.success = true;
-      await this.delay(2500);
+      await this.delay(2000);
       this.success = false;
+      this.initializeObject();
     });
   }
 
@@ -60,7 +62,8 @@ export class CreateBillsComponent implements OnInit {
       Item: '',
       DueDate: '',
       Status: false,
-      Value: 0
+      Value: 0,
+      Items: []
     };
   }
 }

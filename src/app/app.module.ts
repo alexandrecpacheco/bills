@@ -33,6 +33,8 @@ import { SignInComponent } from './bills/authentication/sign-in/sign-in.componen
 import { SignOutComponent } from './bills/authentication/sign-out/sign-out.component';
 import { AuthGuardServiceService } from './bills/authentication/auth-guard-service.service';
 import {MatGridListModule} from '@angular/material/grid-list';
+import { LogInComponent } from './bills/authentication/log-in/log-in.component';
+import { HomePageComponent } from './shared/home-page/home-page.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import {MatGridListModule} from '@angular/material/grid-list';
     DetailBillsComponent,
     ListBillsComponent,
     SignInComponent,
-    SignOutComponent
+    SignOutComponent,
+    LogInComponent,
+    HomePageComponent
   ],
   imports: [
     BrowserModule,
