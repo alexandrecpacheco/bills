@@ -1,32 +1,31 @@
-<div class="sign-in-title">
-   <h1>Contas Mensais</h1>
-</div>
-<div class="container bills center-screen">
-    <div class="form-group items" class="sign-in">
-        <form [formGroup]="form" (ngSubmit)="logIn()">
-            <div class="email" fxLayout="column" fxLayoutAlign="space-around center">
-                <mat-form-field class="col-100" appearance="outline" class="w-100-p">
-                    <mat-label>Email</mat-label>
-                    <input matInput class="form-control" name="Email" [(ngModel)]="email"
-                    placeholder="Email" formControlName="Email">
-                </mat-form-field>
-            </div>
-            <div fxLayout="column" fxLayoutAlign="space-around center">
-                <mat-form-field class="col-100" appearance="outline" class="w-100-p">
-                    <mat-label>Password</mat-label>
-                    <input matInput type="password" class="form-control" [(ngModel)]="password"
-                    name="Password" placeholder="Password" formControlName="Password">
-                </mat-form-field>
-            </div>
-            <div class="btn-row">
-                <button mat-button name="log-in"
-                    class="btn btn-lg btn-block btn-status btn-warning btn-login"
-                    ngDefaultControl type="submit">
-                    Log In
-                </button>
-            </div>
-            <div class="log-in"><a href="./logIn">Criar usuário</a></div>
-            <div class="log-in"><a href="./logIn">Recuperar Senha</a></div>
-        </form>
+<div class="background">
+    <div class="container bills center-screen">
+        <div class="form-group items" class="sign-in">
+            <form [formGroup]="form" (ngSubmit)="logIn()">
+                <div class="email" fxLayout="column" fxLayoutAlign="space-around center">
+                    <mat-form-field class="col-100" appearance="outline" class="w-100-p">
+                        <mat-label>Email</mat-label>
+                        <input matInput class="form-control" name="Email" [(ngModel)]="email"
+                        placeholder="Email" formControlName="Email">
+                    </mat-form-field>
+                </div>
+                <div fxLayout="column" fxLayoutAlign="space-around center">
+                    <mat-form-field class="col-100" appearance="outline" class="w-100-p">
+                        <mat-label>Password</mat-label>
+                        <input matInput type="password" class="form-control" [(ngModel)]="password"
+                        name="Password" placeholder="Password" formControlName="Password">
+                    </mat-form-field>
+                </div>
+                <div class="btn-row">
+                    <button mat-button name="log-in"
+                        class="btn btn-lg btn-block btn-status btn-warning btn-login"
+                        ngDefaultControl type="submit">
+                        Log In
+                    </button>
+                </div>
+                <div class="log-in"><a href="./logIn">Criar usuário</a></div>
+                <div class="log-in"><a href="./logIn">Recuperar Senha</a></div>
+            </form>
+        </div>
     </div>
 </div>

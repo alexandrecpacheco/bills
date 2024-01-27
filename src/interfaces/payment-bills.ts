@@ -9,9 +9,12 @@ export interface IPaymentBill{
 }
 
 export interface IItemPaymentBill {
-    Id: number;
-    Item: string;
-    Value: number;
+    DueDate : string;
+    Id: string;
+    Item : string;
+    Key : string;
+    Status : boolean;
+    Value : number;
 }
 
 export class PaymentBill {
