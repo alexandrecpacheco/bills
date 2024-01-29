@@ -38,6 +38,7 @@ import { HeaderComponent } from './shared/header/header.component';
 import { HomeComponent } from './bills/home/home.component';
 import { AmountComponent } from './bills/amount/amount.component';
 import { FooterComponent } from './shared/footer/footer.component';
+import { CreateButtonComponent } from './shared/create-button/create-button.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { FooterComponent } from './shared/footer/footer.component';
     HeaderComponent,
     HomeComponent,
     AmountComponent,
-    FooterComponent
+    FooterComponent,
+    CreateButtonComponent
   ],
   imports: [
     BrowserModule,
