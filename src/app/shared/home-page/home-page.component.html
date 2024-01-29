@@ -1,9 +1,0 @@
-<mat-grid-list cols="2" rowHeight="2:1">
-    <mat-grid-tile *ngFor="let month of months">
-        <button class="month" mat-button name="[month.name]" (click)="redirect(month)">
-            {{month.name}}
-        </button>
-    </mat-grid-tile>
-</mat-grid-list>
-
-<app-list-bills *ngIf="show"></app-list-bills>

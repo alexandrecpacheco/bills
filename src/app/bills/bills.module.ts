@@ -11,6 +11,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { AmountComponent } from './amount/amount.component';
 
 @NgModule({
   imports: [
@@ -29,6 +30,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
   providers: [
   ],
   bootstrap: [
+  ],
+  declarations: [
   ]
 })
 export class AppModule { }

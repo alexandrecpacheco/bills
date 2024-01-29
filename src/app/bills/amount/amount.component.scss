@@ -1,0 +1,27 @@
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border: 4px solid #5DB075;
+    border-width: 4px;
+    box-sizing: border-box;
+
+    .amount {
+        font-size: 2.5em;
+        font-weight: 400;
+        color: red;
+        padding: 10px;
+        margin: 5px;
+    }
+    .payed {
+        font-size: 1.5em;
+        font-weight: 400;
+        color: green;
+        padding: 10px;
+        margin: 5px;
+    }
+}

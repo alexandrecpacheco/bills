@@ -5,7 +5,7 @@ import { LogInComponent } from './bills/authentication/log-in/log-in.component';
 import { SignInComponent } from './bills/authentication/sign-in/sign-in.component';
 import { CreateBillsComponent } from './bills/create-bills/create-bills.component';
 import { ListBillsComponent } from './bills/list-bills/list-bills.component';
-import { HomePageComponent } from './shared/home-page/home-page.component';
+import { HomeComponent } from './bills/home/home.component';
  
 const routes: Routes = [
   { 
@@ -18,7 +18,7 @@ const routes: Routes = [
     path: 'bills', component: ListBillsComponent, canActivate: [AuthGuard]
   },
   { 
-    path: 'home', component: HomePageComponent, canActivate: [AuthGuard]
+    path: 'home', component: HomeComponent, canActivate: [AuthGuard]
   },
   { 
     path: 'add', component: CreateBillsComponent, canActivate: [AuthGuard]
