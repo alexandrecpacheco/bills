@@ -37,6 +37,7 @@ import { LogInComponent } from './bills/authentication/log-in/log-in.component';
 import { HeaderComponent } from './shared/header/header.component';
 import { HomeComponent } from './bills/home/home.component';
 import { AmountComponent } from './bills/amount/amount.component';
+import { FooterComponent } from './shared/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { AmountComponent } from './bills/amount/amount.component';
     LogInComponent,
     HeaderComponent,
     HomeComponent,
-    AmountComponent
+    AmountComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
