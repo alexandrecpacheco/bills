@@ -7,15 +7,29 @@
     width: 100%;
     height: 100%;
     text-align: center;
-    margin: 4px;
+    margin: 0px;
+}
+
+.app-header {
+	height: 50px;
+	top: 0;
+	position: fixed;
+}
+
+.app-amount {
+    top: 50px;
+    position: fixed;
+    bottom: 30px;
+    height: 230px;
 }
 
 .app-bill {
-    //max-height: 80vh;
+    height: auto;
     overflow-y: auto;
-    padding: 10px;
-    //border: 1px solid #000;
-    //box-sizing: border-box;
+    position: fixed;
+    width: 100%;
+    top: 285px;
+    bottom: 60px;
 }
 
 .home-spinner {
@@ -23,13 +37,15 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+    position: flex;
+    top: 350px;
+    bottom: 400px;
 }
 
 .btn-item {
     display: flex;
     justify-content: left;
     align-items: center;
-
 }
 
 .btn-value {
@@ -47,7 +63,7 @@
 }
 
 .dot {
-    width: 40px;
+    width: 35px;
     height: 17px;
     border-radius: 50%;
     margin: 0 1px 0 5px;

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-button',
@@ -7,12 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateButtonComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
 
   createItem(){
-
+    this.router.navigate(['/bills']);
   }
 }
