@@ -1,0 +1,41 @@
+.home-spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: flex;
+    top: 350px;
+    bottom: 400px;
+}
+
+.btn-item {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.btn-value {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+
+.paid {
+    background-color: green;
+}
+
+.unpaid {
+    background-color: red;
+}
+
+.dot {
+    width: 35px;
+    height: 17px;
+    border-radius: 50%;
+    margin: 0 1px 0 5px;
+    padding: 1px;
+  }
+
+  .form-control {
+    background-color: white;
+  }

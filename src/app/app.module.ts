@@ -39,6 +39,7 @@ import { HomeComponent } from './bills/home/home.component';
 import { AmountComponent } from './bills/amount/amount.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { CreateButtonComponent } from './shared/create-button/create-button.component';
+import { ItemsComponent } from './bills/items/items.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { CreateButtonComponent } from './shared/create-button/create-button.comp
     HomeComponent,
     AmountComponent,
     FooterComponent,
-    CreateButtonComponent
+    CreateButtonComponent,
+    ItemsComponent
   ],
   imports: [
     BrowserModule,

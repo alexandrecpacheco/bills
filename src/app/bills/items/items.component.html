@@ -1,0 +1,16 @@
+<div class="home-spinner">
+    <mat-progress-spinner [diameter]="40" mode="indeterminate" *ngIf="loading"></mat-progress-spinner>
+</div>
+<div *ngFor="let bill of paymentBills" class="bill">
+    <mat-grid-list cols="4" rowHeight="30px">
+        <mat-grid-tile [colspan]="4" [rowspan]="1">
+            <div class="dot" [ngClass]="{'paid': bill.Status, 'unpaid': !bill.Status}"></div>
+            <button class="btn-item form-control btn btn-block" disabled placeholder="Item">
+                {{bill.Item}}
+            </button>
+            <button class="btn-value form-control btn btn-block" disabled>
+                R$ {{bill.Value}}
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>
