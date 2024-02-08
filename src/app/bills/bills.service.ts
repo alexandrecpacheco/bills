@@ -3,8 +3,10 @@ import { IPaymentBill } from 'src/interfaces/payment-bills';
 import { initializeApp } from "firebase/app";
 import { onSnapshot, getFirestore, setDoc, doc, getDoc, query, collection, getDocs, deleteDoc } from "firebase/firestore";
 import { environment } from 'src/environments/environment';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, UserCredential } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
+import { IMonth } from 'src/interfaces/months';
 
 const firebaseApp = initializeApp({
   apiKey: environment.firebase.apiKey,
@@ -20,10 +22,17 @@ const db = getFirestore(firebaseApp);
 })
 
 export class BillsService implements OnInit {
+  
+  private selectedMonthIdSource = new BehaviorSubject<number>(0);
+  selectedMonthId$ = this.selectedMonthIdSource.asObservable();
 
   uid: string = '';
   paymentBills : IPaymentBill[] = [];
   
+  setSelectedMonthId(id: number){
+    this.selectedMonthIdSource.next(id);
+  }
+
   constructor(private router: Router){
   }
 
@@ -53,7 +62,7 @@ export class BillsService implements OnInit {
 
   }
 
-  async getBillsList(): Promise<any>{
+  async getBills(): Promise<any>{
     try{
       this.uid = localStorage.getItem('SessionUser') ?? '';
       if (this.uid === ''){
@@ -89,7 +98,7 @@ export class BillsService implements OnInit {
       if (docSnap.exists()) {
         return docSnap.data();
       } else {
-        alert("Nenhum item foi encontrado!");
+        console.log("Nenhum item foi encontrado!");
       }
       return null;
     } catch(error){
@@ -97,27 +106,26 @@ export class BillsService implements OnInit {
     }
   }
 
-  async createNewBill(bill: IPaymentBill) : Promise<void> {
+  async createMonthBill(bill: IMonth) : Promise<void> {
 
     if (bill && this.uid !== ''){
-      await setDoc(doc(db, this.uid, bill.Item), {
-        Id: bill.Id,
-        Key: bill.Key,
-        Item: bill.Item,
-        DueDate: bill.DueDate,
-        Status: bill.Status,
-        Value: bill.Value,
-        Items: bill.Items
+      await setDoc(doc(db, this.uid, bill.description), {
+        number: bill.number,
+        description: bill.description,
+        item: bill.item
       })
-      .catch((error) => { alert("CreateNew: " + error); })
+      .catch((error) => { 
+        alert("Create New Month: " + error); 
+      })
       .finally();
     }
     else 
     { 
-      alert("CreateNewBill without values"); 
+      alert("Create New Bill without values"); 
     }
   }
 
+  //TODO: Implement the update method with IBill interface
   async updateBill(bill: IPaymentBill) : Promise<void> {
     
     if (!bill && this.uid === ''){
@@ -245,6 +253,10 @@ export class BillsService implements OnInit {
       User: '',
       Uid: ''
     };
+  }
+
+  selectedMonthId(id: number){
+    
   }
 
 }

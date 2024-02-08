@@ -13,8 +13,6 @@ export class SignInComponent implements OnInit {
 
   @Input() user!: User;
   form!: FormGroup;
-  email: string = '';
-  password: string = '';
 
   constructor(private billsService : BillsService,
     private fb: FormBuilder) { }
@@ -32,8 +30,9 @@ export class SignInComponent implements OnInit {
   }
 
   logIn() {
+    const f = this.form.getRawValue();
     if (this.form.valid){
-      this.billsService.login(this.email, this.password);
+      this.billsService.login(f.Email, f.Password);
     }
   }
 }

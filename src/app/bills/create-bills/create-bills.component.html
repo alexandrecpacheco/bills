@@ -1,5 +1,5 @@
 <div class="container bills">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <form [formGroup]="form" (submit)="onSubmit()">
         <ng-container *ngIf="success">
             <div class="success">
                 <span>Cadastro efetuado com sucesso!</span>
@@ -9,31 +9,40 @@
             <div fxLayout="column" fxLayoutAlign="space-around center">
                 <mat-form-field appearance="outline">
                     <mat-label>Item</mat-label>
-                    <input matInput class="form-control" [(ngModel)]="paymentBill.Item" 
-                        formControlName="Item" placeholder="Ex. Luz"required>
+                    <input matInput class="form-control"  
+                        formControlName="item" placeholder="Ex. Luz" required>
                 </mat-form-field>
             </div>
             <div fxLayout="column" fxLayoutAlign="space-around center">
                 <mat-form-field appearance="outline">
                 <mat-label>Valor</mat-label>
-                    <input matInput placeholder="Ex. R$ 10,00" name="Value" formControlName="Value" 
-                    [(ngModel)]="paymentBill.Value" class="form-control" required>
+                    <input matInput placeholder="Ex. R$ 10,00" name="value" formControlName="value" 
+                     class="form-control" required>
                 </mat-form-field>
             </div>
             <div fxLayout="column" fxLayoutAlign="space-around center">
-
                 <mat-form-field appearance="outline">
-                    <mat-label>Dias do Mês</mat-label>
-                    <mat-select formControlName="Day" [(ngModel)]="paymentBill.DueDate" name="day">
-                        <mat-option *ngFor="let day of days" [value]="day.value" required>
-                        {{day.value}}
+                    <mat-label>Mês</mat-label>
+                    <mat-select formControlName="month" name="month">
+                        <mat-option *ngFor="let month of months" [value]="month.description" required>
+                        {{ month.number }} - {{ month.description }}
                         </mat-option>
                     </mat-select>    
                 </mat-form-field>
             </div>
             <div fxLayout="column" fxLayoutAlign="space-around center">
                 <mat-form-field appearance="outline">
-                    <mat-select placeholder="Status" required>
+                    <mat-label>Dias do Mês</mat-label>
+                    <mat-select formControlName="dueDate" name="dueDate">
+                        <mat-option *ngFor="let day of days" [value]="day.value" required>
+                        {{ day.value }}
+                        </mat-option>
+                    </mat-select>    
+                </mat-form-field>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="space-around center">
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="status" required>
                         <mat-option [value]="false">Pendente</mat-option>
                         <mat-option [value]="true">Pago</mat-option>
                     </mat-select>

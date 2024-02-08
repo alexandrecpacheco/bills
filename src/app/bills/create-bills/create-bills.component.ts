@@ -1,8 +1,10 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { IPaymentBill } from 'src/interfaces/payment-bills';
-import { IDay } from 'src/interfaces/day';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { IPaymentBill } from '../../../interfaces/payment-bills';
+import { Day, Days } from '../../../interfaces/day';
 import { BillsService } from '../bills.service';
+import { Month, Months } from '../../classes/months.model';
+import { IItemBill, IMonth } from '../../../interfaces/months';
 
 @Component({
   selector: 'app-create-bills',
@@ -15,55 +17,70 @@ export class CreateBillsComponent implements OnInit {
   selected = "Pendente";
   form!: FormGroup;
   paymentBill!: IPaymentBill;
-  days: IDay[] = [
-    {value: 1}, {value: 2}, {value: 3}, {value: 4}, {value: 5}, {value: 6}, {value: 7}, {value: 8}, {value: 9}, {value: 10}, {value: 11},  
-    {value: 12}, {value: 13}, {value: 14}, {value: 15}, {value: 16}, {value: 17}, {value: 18}, {value: 19}, {value: 20}, {value: 21},
-    {value: 22}, {value: 23}, {value: 24}, {value: 25}, {value: 26}, {value: 27}, {value: 28}, {value: 29}, {value: 30}, {value: 31}
-  ];
-  constructor(private billsService : BillsService,
-    private formControl: FormControl) {
-    }
+  itemBill!: IItemBill;
+  month!: IMonth;
+  days: Day[] = Days.allDays;
+  months: Month[] = Months.allMonths;
+  
+  constructor(private billsService : BillsService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.initializeObject();
-    this.createForm();
+    this.initializeBill();
+    this.createFormBill();
   }
 
   async onSubmit(){
-    this.paymentBill.Key = Math.floor(Date.now()/1000).toString();
-    
-    this.billsService.createNewBill(this.paymentBill)
-    .then(async () => {
-      this.success = true;
-      await this.delay(2000);
-      this.success = false;
-      this.initializeObject();
+    if (this.form.valid){
+      this.itemBill.dueDate = this.form.value.dueDate;
+      this.itemBill.item = this.form.value.item;
+      this.itemBill.key = Math.floor(Date.now()/1000).toString();
+      this.itemBill.status = this.form.value.status;
+      this.itemBill.value = this.form.value.value;
+      //this.month.number = this.form.value.month.split(' - ')[0];   
+      this.month.description = this.form.value.month;
+      this.month.item?.push(this.itemBill);
+
+      this.billsService.createMonthBill(this.month)
+        .then(async () => {
+          this.success = true;
+          await this.delay(2000);
+          this.success = false;
+          this.createFormBill();
+      });
+    } else {
+      this.form.markAllAsTouched();
+    }
+  }
+
+  private initializeBill() {
+    this.month = {
+      description: '',
+      number: 0,
+      item: []
+    }
+
+    this.itemBill = {
+      id: '',
+      dueDate: '',
+      item: '',
+      key: '',
+      status: false,
+      value: 0
+    }
+  }
+
+  private createFormBill() {
+    this.form = this.fb.group({
+      dueDate: ['', Validators.required],
+      item: ['', Validators.required],
+      status: [false, Validators.required],
+      month: ['', Validators.required],
+      value: [0, Validators.required],
     });
   }
 
-  delay(ms: number) {
+  private delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
   }
 
-  private createForm(): void {
-    this.form = new FormGroup({
-        Item: new FormControl('', Validators.required),
-        Value: new FormControl('', Validators.required),
-        DueDate:  new FormControl('', Validators.required),
-        Status:  new FormControl('', Validators.required),
-        Day: new FormControl('')
-      });
-  }
-
-  private initializeObject() {
-    this.paymentBill = {
-      Id: '',
-      Key: '',
-      Item: '',
-      DueDate: '',
-      Status: false,
-      Value: 0,
-      Items: []
-    };
-  }
 }

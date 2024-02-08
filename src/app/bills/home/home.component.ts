@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
 
   async getPaymentBills() {
     this.loading = true;
-    this.service.getBillsList().then((data) =>{
+    this.service.getBills().then((data) =>{
       this.paymentBills = [];
       if (data){
         this.paymentBills = data;

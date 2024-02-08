@@ -1,9 +1,13 @@
 <div class="footer">
-    <span class="circle selected">Jan</span>
-    <span class="circle">Fev</span>
-    <span class="circle">Mar</span>
-    <span class="circle">Abr</span>
-    <span class="circle">Mai</span>
-    <span class="circle">Jun</span>
-    <span class="circle">Jul</span>
+    <button class="circle"  *ngFor="let month of months" 
+    [ngClass]="month.number === currentMonth ? 'selected': ''"
+    (click)="onMonthButtonClick(month.number)">
+        {{ month.description }}
+</button>
+
+    <!-- <mat-tab-group [backgroundColor]="'accent'" (selectedTabChange)="getBills($event)">
+        <span *ngFor="let month of months" class="circle">
+           <mat-tab class="mat-tab-color" [label]='month.description'></mat-tab>
+        </span>
+   </mat-tab-group> -->
 </div>

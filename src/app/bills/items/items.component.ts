@@ -24,13 +24,18 @@ export class ItemsComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    
+    this.service.selectedMonthId$.subscribe((id) => {
+      this.getBillById(id);
+    });
+    
     this.createForm(new PaymentBill());
     this.getPaymentBills();
   }
 
   async getPaymentBills() {
     this.loading = true;
-    this.service.getBillsList().then((data) =>{
+    this.service.getBills().then((data) =>{
       this.paymentBills = [];
       if (data){
         this.paymentBills = data;
@@ -40,7 +45,7 @@ export class ItemsComponent implements OnInit {
     }).catch(err =>{ alert(`GetPaymentBills ${err}`); this.loading = false; });
   }
 
-  getTotalBills(){
+  getTotalBills() {
     this.totalPending = 0;
     this.totalPayed = 0;
     this.paymentBills.forEach(bill => {
@@ -51,6 +56,19 @@ export class ItemsComponent implements OnInit {
         this.totalPayed += +bill.Value ?? 0;
       }
     });
+  }
+
+  async getBillById(id: number) {
+    this.service.getDocument(id.toString()).then((data) => {
+      if (data !== null && data.exists) {
+        this.paymentBill = data;
+        return this.paymentBill;
+      }
+      else {
+        return null;
+      }
+    });
+    
   }
 
   //#region [ Private Methods ]
